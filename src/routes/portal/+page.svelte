@@ -228,18 +228,24 @@
 				<h3 class="text-sm font-bold text-white">Active Member Surveys in Pipeline</h3>
 				<div class="space-y-2">
 					{#each data.surveys as survey}
-						<div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+						<a
+							href="/survey/{survey.token}"
+							class="p-3 rounded-lg bg-slate-950/70 border border-slate-800/80 hover:border-brand-500/50 hover:bg-slate-950 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs block group"
+						>
 							<div>
-								<span class="font-bold text-white font-sans">{survey.member?.name || 'Marcus Miller (AutoGlass Pro)'}</span>
+								<div class="flex items-center space-x-2">
+									<span class="font-bold text-white group-hover:text-brand-300 transition-colors font-sans">{survey.member?.name || 'Marcus Miller (AutoGlass Pro)'}</span>
+									<span class="text-[10px] text-brand-400 bg-brand-500/10 px-1.5 py-0.5 rounded border border-brand-500/20 font-mono">Open Survey</span>
+								</div>
 								<p class="text-slate-400 font-mono text-[11px]">Token: {survey.token}</p>
 							</div>
 							<div class="flex items-center space-x-3">
 								<span class="font-mono text-brand-300">Step {survey.stepCompleted} of 11</span>
-								<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
-									{survey.isCertified ? 'Certified' : 'Pending Certification'}
+								<span class="px-2 py-0.5 rounded text-[10px] font-semibold {survey.isCertified ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-300 border border-amber-500/20'}">
+									{survey.isCertified ? 'Certified' : 'In Progress'}
 								</span>
 							</div>
-						</div>
+						</a>
 					{/each}
 				</div>
 			</div>
@@ -301,13 +307,13 @@
 						<Lock class="w-3.5 h-3.5 text-slate-400" />
 						<span>Protected by Edge Session Auth &bull; Auto-saved</span>
 					</span>
-					<button
-						type="button"
-						class="inline-flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-md transition-colors cursor-pointer"
+					<a
+						href="/survey/tk_eagle1_intake_verified_2026"
+						class="inline-flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-md transition-colors"
 					>
-						<span>Continue Step 9: Reinsurance Agreement</span>
+						<span>Open 11-Step Survey Intake Wizard</span>
 						<ArrowRight class="w-3.5 h-3.5" />
-					</button>
+					</a>
 				</div>
 			</div>
 		</div>
