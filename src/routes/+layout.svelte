@@ -24,11 +24,11 @@
 	let mobileMenuOpen = $state(false);
 
 	const navItems = [
-		{ label: 'Pilot Programs', href: '/#programs', icon: Layers },
-		{ label: 'Capital & LOC', href: '/#capital', icon: Landmark },
-		{ label: 'Feasibility Engine', href: '/#feasibility', icon: Activity },
-		{ label: 'Member Surveys', href: '/#surveys', icon: FileText },
-		{ label: 'RBAC Roles', href: '/#rbac', icon: Users }
+		{ label: 'Feasibility Engine', href: '/feasibility', icon: Activity },
+		{ label: 'Capital & LOC', href: '/capital', icon: Landmark },
+		{ label: 'Member Survey', href: '/survey/tk_eagle1_intake_verified_2026', icon: FileText },
+		{ label: 'Actuarial Review', href: '/review', icon: Layers },
+		{ label: 'Dashboard', href: '/portal', icon: Shield }
 	];
 
 	function closeMenu() {
