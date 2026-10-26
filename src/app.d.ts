@@ -1,4 +1,5 @@
 import type { D1Database, R2Bucket } from '@cloudflare/workers-types';
+import type { User, Session } from '$lib/server/db/schema';
 
 declare global {
 	namespace App {
@@ -19,17 +20,8 @@ declare global {
 		}
 
 		interface Locals {
-			user?: {
-				id: string;
-				email: string;
-				name: string;
-				role: string;
-			} | null;
-			session?: {
-				id: string;
-				userId: string;
-				expiresAt: Date;
-			} | null;
+			user?: User | null;
+			session?: Session | null;
 		}
 
 		// interface Error {}

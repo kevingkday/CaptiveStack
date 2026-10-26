@@ -13,19 +13,22 @@
 		Database,
 		ChevronRight,
 		ExternalLink,
-		CheckCircle2
+		CheckCircle2,
+		LogOut,
+		User as UserIcon,
+		LogIn
 	} from 'lucide-svelte';
 
-	let { children }: LayoutProps = $props();
+	let { children, data }: LayoutProps = $props();
 
 	let mobileMenuOpen = $state(false);
 
 	const navItems = [
-		{ label: 'Pilot Programs', href: '#programs', icon: Layers },
-		{ label: 'Capital & LOC', href: '#capital', icon: Landmark },
-		{ label: 'Feasibility Engine', href: '#feasibility', icon: Activity },
-		{ label: 'Member Surveys', href: '#surveys', icon: FileText },
-		{ label: 'RBAC Roles', href: '#rbac', icon: Users }
+		{ label: 'Pilot Programs', href: '/#programs', icon: Layers },
+		{ label: 'Capital & LOC', href: '/#capital', icon: Landmark },
+		{ label: 'Feasibility Engine', href: '/#feasibility', icon: Activity },
+		{ label: 'Member Surveys', href: '/#surveys', icon: FileText },
+		{ label: 'RBAC Roles', href: '/#rbac', icon: Users }
 	];
 
 	function closeMenu() {
@@ -118,17 +121,34 @@
 
 				<!-- Header Right Actions & Identity -->
 				<div class="hidden sm:flex items-center space-x-3">
-					<div class="flex items-center space-x-2 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-300">
-						<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-						<span class="font-mono text-[11px] text-slate-200">Admin/CSA</span>
-					</div>
-					<a
-						href="#programs"
-						class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-sm shadow-brand-500/20 transition-all hover:shadow-brand-500/30"
-					>
-						<span>Explore Programs</span>
-						<ChevronRight class="w-3.5 h-3.5" />
-					</a>
+					{#if data?.currentUser}
+						<a
+							href="/portal"
+							class="flex items-center space-x-2 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 transition-colors"
+						>
+							<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+							<span class="font-medium text-white">{data.currentUser.name}</span>
+							<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-500/10 text-brand-300 border border-brand-500/30">
+								{data.currentUser.role}
+							</span>
+						</a>
+
+						<a
+							href="/logout"
+							title="Sign Out"
+							class="p-2 rounded-lg text-slate-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors"
+						>
+							<LogOut class="w-4 h-4" />
+						</a>
+					{:else}
+						<a
+							href="/login"
+							class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-sm shadow-brand-500/20 transition-all hover:shadow-brand-500/30"
+						>
+							<LogIn class="w-3.5 h-3.5" />
+							<span>Sign In</span>
+						</a>
+					{/if}
 				</div>
 
 				<!-- Mobile Hamburger Button -->
@@ -169,21 +189,43 @@
 				</div>
 
 				<div class="pt-4 border-t border-slate-800/80 space-y-3">
-					<div class="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-xs">
-						<span class="text-slate-400">Active Node:</span>
-						<span class="font-mono text-emerald-400 flex items-center">
-							<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>
-							Cloudflare D1 (Local)
-						</span>
-					</div>
-					<a
-						href="#programs"
-						onclick={closeMenu}
-						class="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-md transition-colors"
-					>
-						<span>View Eagle1 &amp; GlassCo</span>
-						<ChevronRight class="w-4 h-4" />
-					</a>
+					{#if data?.currentUser}
+						<div class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-xs">
+							<div class="flex items-center space-x-2">
+								<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+								<span class="font-medium text-white">{data.currentUser.name}</span>
+							</div>
+							<span class="font-mono text-brand-300">{data.currentUser.role}</span>
+						</div>
+
+						<div class="grid grid-cols-2 gap-2">
+							<a
+								href="/portal"
+								onclick={closeMenu}
+								class="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-brand-600 text-white"
+							>
+								<span>Portal</span>
+								<ChevronRight class="w-3.5 h-3.5" />
+							</a>
+							<a
+								href="/logout"
+								onclick={closeMenu}
+								class="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-300 border border-rose-500/30"
+							>
+								<LogOut class="w-3.5 h-3.5" />
+								<span>Sign Out</span>
+							</a>
+						</div>
+					{:else}
+						<a
+							href="/login"
+							onclick={closeMenu}
+							class="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg text-sm font-semibold bg-brand-600 hover:bg-brand-500 text-white shadow-md transition-colors"
+						>
+							<LogIn class="w-4 h-4" />
+							<span>Sign In with Credentials</span>
+						</a>
+					{/if}
 				</div>
 			</div>
 		{/if}
@@ -228,22 +270,22 @@
 					<h3 class="font-semibold text-slate-200 mb-3 text-xs uppercase tracking-wider">Pilot Captives</h3>
 					<ul class="space-y-2">
 						<li>
-							<a href="#programs" class="hover:text-brand-400 transition-colors flex items-center space-x-1">
+							<a href="/#programs" class="hover:text-brand-400 transition-colors flex items-center space-x-1">
 								<span>Eagle1 Hole-in-One Prize Pool</span>
 							</a>
 						</li>
 						<li>
-							<a href="#programs" class="hover:text-brand-400 transition-colors flex items-center space-x-1">
+							<a href="/#programs" class="hover:text-brand-400 transition-colors flex items-center space-x-1">
 								<span>GlassCo Replacement Warranty</span>
 							</a>
 						</li>
 						<li>
-							<a href="#capital" class="hover:text-brand-400 transition-colors">
+							<a href="/#capital" class="hover:text-brand-400 transition-colors">
 								LOC Replacement Facility ($2.0M+)
 							</a>
 						</li>
 						<li>
-							<a href="#feasibility" class="hover:text-brand-400 transition-colors">
+							<a href="/#feasibility" class="hover:text-brand-400 transition-colors">
 								Actuarial Combined Ratio Engine
 							</a>
 						</li>
