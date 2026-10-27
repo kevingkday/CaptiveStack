@@ -7,13 +7,14 @@ pages_build_output_dir = ".svelte-kit/cloudflare"
 [[d1_databases]]
 binding = "DB"
 database_name = "captivestack-db"
-database_id = "local-captivestack-d1"
+database_id = "4f9c4fbc-cf82-4e11-ab2e-f1cdf915e052"
 migrations_dir = "drizzle"
 
 # Cloudflare R2 Bucket for Risk Documents & Loss Runs (PDF/XLS)
-[[r2_buckets]]
-binding = "DOCUMENTS_BUCKET"
-bucket_name = "captivestack-documents"
+# Note: Enable R2 in the Cloudflare Dashboard to bind the live bucket
+# [[r2_buckets]]
+# binding = "DOCUMENTS_BUCKET"
+# bucket_name = "captivestack-documents"
 
 # Environment Variables
 [vars]
