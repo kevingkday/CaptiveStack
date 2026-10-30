@@ -1,0 +1,22 @@
+# ------------------------------------------------------------------------------
+# <type>(<scope>): <concise subject under 60 chars>
+#
+# Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
+# Examples:
+#   feat(capital): add member quota-share simulator and standby pledge form
+#   fix(auth): resolve session cookie expiration check on edge runtime
+# ------------------------------------------------------------------------------
+
+# --- Problem Solved / Strategic Objective ---
+# - Describe why this change is necessary and what business or technical problem it addresses.
+
+# --- Implementation Details ---
+# - Bulleted breakdown of exact changes across routes, components, and server actions.
+# - Routes affected: (e.g. /feasibility, /capital, /review, /portal, /survey)
+# - Database / D1 tables modified: (e.g. users, projects, capital_reserves, audit_logs)
+# - Storage / Edge bindings impacted: (e.g. DB, DOCUMENTS_BUCKET)
+
+# --- Verification & Testing ---
+# - [ ] npm run check (0 errors, 0 warnings)
+# - [ ] npm run build (@sveltejs/adapter-cloudflare bundle)
+# - [ ] Tested locally or on Cloudflare Pages (https://captivestack.pages.dev)
