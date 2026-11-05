@@ -19,7 +19,7 @@
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	let email = $state('');
-	let password = $state('CaptiveStack2026!');
+	let password = $state('');
 	let loading = $state(false);
 
 	$effect(() => {
@@ -28,49 +28,13 @@
 		}
 	});
 
-	const demoRoles: Array<{
-		role: UserRole;
-		email: string;
-		name: string;
-		title: string;
-		icon: any;
-	}> = [
-		{
-			role: 'Admin',
-			email: 'admin@captivestack.com',
-			name: 'System Admin',
-			title: 'Full Platform Access & Settings',
-			icon: Shield
-		},
-		{
-			role: 'CaptiveStackAdministrator',
-			email: 'csa@captivestack.com',
-			name: 'Sarah Lin',
-			title: 'Chief Underwriting & Capital Gatekeeper',
-			icon: Scale
-		},
-		{
-			role: 'AssociationAdministrator',
-			email: 'admin@glassco.org',
-			name: 'David Vance',
-			title: 'GlassCo Exec Director & Group Lead',
-			icon: Building2
-		},
-		{
-			role: 'AssociationMember',
-			email: 'marcus@autoglasspro.com',
-			name: 'Marcus Miller',
-			title: 'AutoGlass Pro (11-Step Survey Intake)',
-			icon: UserCheck
-		},
-		{
-			role: 'AdviserReviewer',
-			email: 'elena@actuarialrisk.com',
-			name: 'Dr. Elena Rostova',
-			title: 'Lead Actuary & Independent Auditor',
-			icon: FileSpreadsheet
-		}
-	];
+	const personaIcons: Record<UserRole, typeof Shield> = {
+		Admin: Shield,
+		CaptiveStackAdministrator: Scale,
+		AssociationAdministrator: Building2,
+		AssociationMember: UserCheck,
+		AdviserReviewer: FileSpreadsheet
+	};
 </script>
 
 <svelte:head>
@@ -131,7 +95,9 @@
 						<label for="password" class="block text-xs font-semibold text-slate-700">
 							Password
 						</label>
-						<span class="text-[11px] text-slate-500 font-mono">Demo: CaptiveStack2026!</span>
+						{#if data.demoMode && data.demoPasswordHint}
+							<span class="text-[11px] text-slate-500 font-mono">Demo: {data.demoPasswordHint}</span>
+						{/if}
 					</div>
 					<div class="relative rounded-lg shadow-2xs">
 						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -158,56 +124,56 @@
 				</button>
 			</form>
 
-			<!-- Quick RBAC Test Switcher Header -->
-			<div class="relative my-4">
-				<div class="absolute inset-0 flex items-center">
-					<div class="w-full border-t border-slate-200"></div>
+			{#if data.demoMode && data.demoRoles.length}
+				<div class="relative my-4">
+					<div class="absolute inset-0 flex items-center">
+						<div class="w-full border-t border-slate-200"></div>
+					</div>
+					<div class="relative flex justify-center text-xs">
+						<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium border border-slate-200 text-[11px]">
+							Instant Role Persona Switcher
+						</span>
+					</div>
 				</div>
-				<div class="relative flex justify-center text-xs">
-					<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium border border-slate-200 text-[11px]">
-						Instant Role Persona Switcher
-					</span>
-				</div>
-			</div>
 
-			<!-- Instant Demo Role Buttons -->
-			<div class="space-y-2">
-				<p class="text-[11px] text-slate-500 text-center">
-					Click any demo persona to log in immediately with role privileges:
-				</p>
-				<div class="grid grid-cols-1 gap-2">
-					{#each demoRoles as item}
-						{@const IconComponent = item.icon}
-						{@const roleMeta = ROLE_CONFIGS[item.role]}
-						<form method="POST" action="?/demoLogin" class="w-full">
-							<input type="hidden" name="role" value={item.role} />
-							<input type="hidden" name="redirectTo" value={data.redirectTo} />
-							<button
-								type="submit"
-								class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-left group cursor-pointer"
-							>
-								<div class="flex items-center space-x-3">
-									<div class="p-2 rounded-lg bg-white border border-slate-200 text-blue-600 group-hover:text-blue-700 transition-colors shadow-2xs">
-										<IconComponent class="w-4 h-4" />
-									</div>
-									<div class="space-y-0.5">
-										<div class="flex items-center space-x-2">
-											<span class="text-xs font-bold text-slate-900 font-sans">{item.name}</span>
-											<span class="text-[10px] font-mono px-1.5 py-0.2 rounded border {roleMeta.badgeClass}">
-												{item.role}
-											</span>
+				<div class="space-y-2">
+					<p class="text-[11px] text-slate-500 text-center">
+						Click any demo persona to log in immediately with role privileges:
+					</p>
+					<div class="grid grid-cols-1 gap-2">
+						{#each data.demoRoles as item}
+							{@const IconComponent = personaIcons[item.role]}
+							{@const roleMeta = ROLE_CONFIGS[item.role]}
+							<form method="POST" action="?/demoLogin" class="w-full">
+								<input type="hidden" name="role" value={item.role} />
+								<input type="hidden" name="redirectTo" value={data.redirectTo} />
+								<button
+									type="submit"
+									class="w-full flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-left group cursor-pointer"
+								>
+									<div class="flex items-center space-x-3">
+										<div class="p-2 rounded-lg bg-white border border-slate-200 text-blue-600 group-hover:text-blue-700 transition-colors shadow-2xs">
+											<IconComponent class="w-4 h-4" />
 										</div>
-										<p class="text-[11px] text-slate-500 truncate max-w-[240px]">
-											{item.email} &bull; {item.title}
-										</p>
+										<div class="space-y-0.5">
+											<div class="flex items-center space-x-2">
+												<span class="text-xs font-bold text-slate-900 font-sans">{item.name}</span>
+												<span class="text-[10px] font-mono px-1.5 py-0.2 rounded border {roleMeta.badgeClass}">
+													{item.role}
+												</span>
+											</div>
+											<p class="text-[11px] text-slate-500 truncate max-w-[240px]">
+												{item.email} &bull; {item.title}
+											</p>
+										</div>
 									</div>
-								</div>
-								<ArrowRight class="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
-							</button>
-						</form>
-					{/each}
+									<ArrowRight class="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+								</button>
+							</form>
+						{/each}
+					</div>
 				</div>
-			</div>
+			{/if}
 		</div>
 
 		<!-- Footer Link Back to Home -->

@@ -4,18 +4,30 @@ import { eq } from 'drizzle-orm';
 import { getDb } from '$lib/server/db';
 import { users } from '$lib/server/db/schema';
 import { createSession, setSessionCookie } from '$lib/server/auth';
-import { verifyPassword } from '$lib/server/auth/password';
 import { seedData } from '$lib/server/db/seed-data';
+import {
+	DEMO_PASSWORD_LABEL,
+	decideDemoLogin,
+	decidePasswordLogin,
+	demoPersonas,
+	isDemoMode
+} from '$lib/server/auth/demo';
 
-export const load: PageServerLoad = async ({ locals, url }) => {
-	// If already authenticated, redirect to portal
+const INVALID_CREDENTIALS = 'Invalid credentials.';
+
+export const load: PageServerLoad = async ({ locals, url, platform }) => {
 	if (locals.user) {
 		const redirectTo = url.searchParams.get('redirectTo') || '/portal';
 		throw redirect(303, redirectTo);
 	}
 
+	const demoMode = isDemoMode(platform?.env);
+
 	return {
-		redirectTo: url.searchParams.get('redirectTo') || '/portal'
+		redirectTo: url.searchParams.get('redirectTo') || '/portal',
+		demoMode,
+		demoPasswordHint: demoMode ? DEMO_PASSWORD_LABEL : null,
+		demoRoles: demoMode ? demoPersonas : []
 	};
 };
 
@@ -25,6 +37,7 @@ export const actions: Actions = {
 		const email = formData.get('email')?.toString().trim().toLowerCase();
 		const password = formData.get('password')?.toString() || '';
 		const redirectTo = url.searchParams.get('redirectTo') || '/portal';
+		const demoMode = isDemoMode(platform?.env);
 
 		if (!email || !password) {
 			return fail(400, {
@@ -33,30 +46,32 @@ export const actions: Actions = {
 			});
 		}
 
-		let matchedUser: any = null;
+		let matchedUser: { id: string; passwordHash: string } | null = null;
 
 		if (platform?.env?.DB) {
 			const db = getDb(platform.env.DB);
-			const userRecord = await db
-				.select()
-				.from(users)
-				.where(eq(users.email, email))
-				.get();
-
+			const userRecord = await db.select().from(users).where(eq(users.email, email)).get();
 			if (userRecord) {
-				const isValid = await verifyPassword(password, userRecord.passwordHash);
-				if (isValid) {
+				const decision = await decidePasswordLogin({
+					demoMode,
+					password,
+					passwordHash: userRecord.passwordHash
+				});
+				if (decision === 'ok') {
 					matchedUser = userRecord;
 					const session = await createSession(db, userRecord.id);
 					setSessionCookie(cookies, session.id, session.expiresAt);
 				}
 			}
-		} else {
-			// Dev fallback without D1 binding
+		} else if (demoMode) {
 			const seedUser = seedData.users.find((u) => u.email.toLowerCase() === email);
 			if (seedUser) {
-				const isValid = await verifyPassword(password, seedUser.passwordHash);
-				if (isValid) {
+				const decision = await decidePasswordLogin({
+					demoMode,
+					password,
+					passwordHash: seedUser.passwordHash
+				});
+				if (decision === 'ok') {
 					matchedUser = seedUser;
 					setSessionCookie(
 						cookies,
@@ -69,7 +84,7 @@ export const actions: Actions = {
 
 		if (!matchedUser) {
 			return fail(401, {
-				error: 'Invalid credentials. For test accounts, use password "CaptiveStack2026!" or one-click Demo Sign-In below.',
+				error: INVALID_CREDENTIALS,
 				email
 			});
 		}
@@ -78,6 +93,11 @@ export const actions: Actions = {
 	},
 
 	demoLogin: async ({ request, cookies, platform, url }) => {
+		const demoMode = isDemoMode(platform?.env);
+		if (!decideDemoLogin(demoMode).ok) {
+			return fail(403, { error: 'Demo sign-in is disabled.' });
+		}
+
 		const formData = await request.formData();
 		const role = formData.get('role')?.toString();
 		const redirectTo = url.searchParams.get('redirectTo') || '/portal';
@@ -86,12 +106,7 @@ export const actions: Actions = {
 
 		if (platform?.env?.DB) {
 			const db = getDb(platform.env.DB);
-			// Find or upsert user
-			let user = await db
-				.select()
-				.from(users)
-				.where(eq(users.email, targetSeed.email))
-				.get();
+			let user = await db.select().from(users).where(eq(users.email, targetSeed.email)).get();
 
 			if (!user) {
 				const [created] = await db

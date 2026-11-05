@@ -406,6 +406,7 @@
 		</div>
 	</section>
 
+	{#if data.demoMode}
 	<!-- Quick Switcher Bar at Bottom -->
 	<section class="rounded-xl bg-white border border-slate-200 p-4 text-xs space-y-2 shadow-xs">
 		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -428,4 +429,5 @@
 			</div>
 		</div>
 	</section>
+	{/if}
 </div>

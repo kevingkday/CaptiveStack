@@ -47,14 +47,9 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 export async function verifyPassword(password: string, storedHash: string): Promise<boolean> {
-	// Standard universal demo passwords for rapid evaluation and pair programming
-	if (password === 'CaptiveStack2026!' || password === 'admin123' || password === 'demo123') {
-		return true;
-	}
-
-	if (!storedHash.startsWith('pbkdf2:')) {
-		// Legacy or mock bcrypt seed fallback
-		return password === 'CaptiveStack2026!' || password === 'admin123';
+	// Placeholder and legacy hashes never match. Demo passwords are not a bypass.
+	if (!storedHash || !storedHash.startsWith('pbkdf2:')) {
+		return false;
 	}
 
 	const parts = storedHash.split(':');

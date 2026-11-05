@@ -312,11 +312,6 @@
 							</a>
 						</li>
 						<li>
-							<a href="/survey/tk_eagle1_intake_verified_2026" class="hover:text-blue-600 transition-colors">
-								Member Exposure Survey
-							</a>
-						</li>
-						<li>
 							<a href="/review" class="hover:text-blue-600 transition-colors">
 								Actuarial Review Queue
 							</a>

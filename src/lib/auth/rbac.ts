@@ -59,3 +59,14 @@ export function isRouteAllowed(role: UserRole | undefined | null, pathname: stri
 
 	return config.allowedPrefixes.some((prefix) => pathname.startsWith(prefix));
 }
+
+export function canAccessPortal(role: UserRole | string | null | undefined): boolean {
+	if (!role) return false;
+	return isRouteAllowed(role as UserRole, '/portal');
+}
+
+/** Review page loads and the certifyStudy form action. */
+export function canPerformReviewAction(role: UserRole | string | null | undefined): boolean {
+	if (!role) return false;
+	return isRouteAllowed(role as UserRole, '/review');
+}

@@ -63,7 +63,9 @@ export function generateSeedSql(data: SeedData = seedData): string {
 		);
 	}
 
-	return statements.join('\n');
+	const header =
+		'-- SECURITY: password_hash values are shared placeholders. Production login rejects them until each account is given a new PBKDF2 hash. The Eagle1 intake token is predictable and is not served unless DEMO_MODE=true.\n';
+	return header + statements.join('\n');
 }
 
 // Generate the seed.sql file when executed directly

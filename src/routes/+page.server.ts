@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { getDb } from '$lib/server/db';
 import { seedData } from '$lib/server/db/seed-data';
+import { stripPublicSecrets } from '$lib/server/public-payload';
 
 export const load: PageServerLoad = async ({ platform }) => {
 	// Attempt query against Cloudflare D1 if edge platform binding is present
@@ -21,7 +22,7 @@ export const load: PageServerLoad = async ({ platform }) => {
 				db.query.associations.findMany()
 			]);
 
-			return {
+			return stripPublicSecrets({
 				isD1EdgeConnected: true,
 				source: 'Cloudflare D1 (Live Edge Database)',
 				projects: projectsList,
@@ -29,14 +30,14 @@ export const load: PageServerLoad = async ({ platform }) => {
 				feasibilityAssessments: feasibilityList,
 				capitalReserves: capitalReservesList,
 				associations: associationsList
-			};
+			});
 		} catch (err) {
 			console.warn('[D1 Query Fallback]', err);
 		}
 	}
 
 	// Local development fallback to verified seed data
-	return {
+	return stripPublicSecrets({
 		isD1EdgeConnected: false,
 		source: 'Seeded Data Layer (Local Development)',
 		projects: seedData.projects.map((p) => ({
@@ -49,5 +50,5 @@ export const load: PageServerLoad = async ({ platform }) => {
 		feasibilityAssessments: seedData.feasibilityAssessments,
 		capitalReserves: seedData.capitalReserves,
 		associations: seedData.associations
-	};
+	});
 };
