@@ -4,480 +4,577 @@
 		Shield,
 		Layers,
 		Landmark,
-		Activity,
 		Users,
 		FileText,
 		CheckCircle2,
 		AlertCircle,
 		TrendingUp,
 		ArrowRight,
-		Database,
-		Lock,
+		Sliders,
 		Check,
-		Copy,
-		Clock,
-		Percent,
 		DollarSign,
+		Percent,
 		ChevronRight,
+		Sparkles,
+		ShieldCheck,
+		Scale,
 		FileCheck,
-		BadgeCheck
+		Building2,
+		AlertTriangle,
+		XCircle,
+		Coins,
+		HelpCircle,
+		Compass
 	} from 'lucide-svelte';
 
 	let { data }: { data: PageData } = $props();
 
-	let copiedSnippet = $state<string | null>(null);
-
-	function copyToClipboard(text: string, id: string) {
-		navigator.clipboard.writeText(text);
-		copiedSnippet = id;
-		setTimeout(() => {
-			copiedSnippet = null;
-		}, 2000);
+	function scrollToSection(id: string) {
+		const el = document.getElementById(id);
+		if (el) {
+			el.scrollIntoView({ behavior: 'smooth' });
+		}
 	}
-
-	function formatCurrency(val: number) {
-		return new Intl.NumberFormat('en-US', {
-			style: 'currency',
-			currency: 'USD',
-			maximumFractionDigits: 0
-		}).format(val);
-	}
-
-	function formatPercent(val: number) {
-		return (val * 100).toFixed(1) + '%';
-	}
-
-	const pipelineStages = [
-		'Intake',
-		'Outreach',
-		'DataCollection',
-		'Review',
-		'Feasibility',
-		'ActuarialReview',
-		'CapitalFormation',
-		'Domicile',
-		'Bound'
-	];
 </script>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-	<!-- Hero / Header Section -->
-	<section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900/90 to-brand-950/40 border border-slate-800 p-6 sm:p-10 shadow-2xl">
-		<div class="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
-		<div class="relative z-10 space-y-4">
-			<div class="flex flex-wrap items-center gap-2">
-				<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-brand-500/10 text-brand-400 border border-brand-500/30">
-					<Shield class="w-3.5 h-3.5 mr-1.5" />
-					CaptiveStack Architecture v2
-				</span>
-				<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-800/80 text-slate-300 border border-slate-700/60 font-mono">
-					<Database class="w-3.5 h-3.5 mr-1.5 text-emerald-400" />
-					{data.source}
-				</span>
-			</div>
+<svelte:head>
+	<title>Captive8 | Member-Owned Group Captive Insurance</title>
+	<meta
+		name="description"
+		content="Captive8 makes it easy for groups and associations to setup their own insurance company to insure the risks of their members."
+	/>
+</svelte:head>
 
-			<h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-				Alternative Risk Transfer &amp; Group Captive Engine
-			</h1>
-			<p class="text-sm sm:text-base text-slate-300 max-w-3xl leading-relaxed">
-				Scaffolding the foundation of CaptiveStack: replacing legacy stateful Blazor Server with a serverless edge architecture powered by <span class="text-white font-medium">Cloudflare D1 (SQLite)</span>, <span class="text-white font-medium">Drizzle ORM</span>, and <span class="text-white font-medium">SvelteKit 2</span>.
-			</p>
-
-			<!-- Quick Key Metrics Grid -->
-			<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-4">
-				<div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800/90 backdrop-blur-sm">
-					<span class="text-xs font-medium text-slate-400 block mb-1">Active Pilot Programs</span>
-					<div class="flex items-baseline space-x-2">
-						<span class="text-2xl font-bold text-white font-mono">{data.projects.length}</span>
-						<span class="text-xs text-brand-400 font-medium">Eagle1 &amp; GlassCo</span>
-					</div>
-				</div>
-
-				<div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800/90 backdrop-blur-sm">
-					<span class="text-xs font-medium text-slate-400 block mb-1">Target Capital Reserves</span>
-					<div class="flex items-baseline space-x-2">
-						<span class="text-2xl font-bold text-emerald-400 font-mono">$4.50M</span>
-						<span class="text-xs text-slate-400">LOC Replacement</span>
-					</div>
-				</div>
-
-				<div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800/90 backdrop-blur-sm">
-					<span class="text-xs font-medium text-slate-400 block mb-1">Seeded RBAC Identities</span>
-					<div class="flex items-baseline space-x-2">
-						<span class="text-2xl font-bold text-white font-mono">{data.users.length}</span>
-						<span class="text-xs text-indigo-400 font-medium">5 Role Types</span>
-					</div>
-				</div>
-
-				<div class="p-4 rounded-xl bg-slate-950/60 border border-slate-800/90 backdrop-blur-sm">
-					<span class="text-xs font-medium text-slate-400 block mb-1">Avg Combined Ratio Target</span>
-					<div class="flex items-baseline space-x-2">
-						<span class="text-2xl font-bold text-brand-300 font-mono">81.5%</span>
-						<span class="text-xs text-emerald-400">&lt; 100% Profitable</span>
-					</div>
-				</div>
-			</div>
+<div class="space-y-16 sm:space-y-24 py-8 sm:py-16">
+	<!-- =========================================================================
+	     1. HERO SECTION (TwinFlow Style)
+	     ========================================================================= -->
+	<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+		<!-- Eyebrow Pill -->
+		<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-6 shadow-2xs">
+			<span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+			<span>Member-Owned Group Captive Insurance</span>
+			<span class="text-slate-300">•</span>
+			<span class="text-slate-600 font-medium">Alternative Risk Marketplace</span>
 		</div>
-	</section>
 
-	<!-- Pilot Programs Section -->
-	<section id="programs" class="space-y-4">
-		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800/80 pb-3">
-			<div>
-				<h2 class="text-xl font-bold text-white flex items-center space-x-2">
-					<Layers class="w-5 h-5 text-brand-400" />
-					<span>Pilot Group Captives</span>
-				</h2>
-				<p class="text-xs sm:text-sm text-slate-400">
-					Association-backed alternative risk programs targeting letters-of-credit replacement.
+		<!-- Main Headline -->
+		<h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl leading-[1.15] mb-6">
+			Captive8 makes it easy for groups and associations to setup their own insurance company to <span class="text-blue-600">insure the risks of their members.</span>
+		</h1>
+
+		<!-- Subtitle -->
+		<p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8">
+			Take control back from the hardening commercial insurance market. Pool your association's buying power, customize policy coverages, stabilize long-term rates, and participate directly in underwriting profits.
+		</p>
+
+		<!-- Primary CTA Buttons -->
+		<div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mb-12">
+			<a
+				href="/feasibility"
+				class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm transition-all shadow-xs flex items-center justify-center gap-2"
+			>
+				<Sparkles class="w-4 h-4 text-blue-200" />
+				<span>Evaluate Your Feasibility</span>
+				<ArrowRight class="w-4 h-4" />
+			</a>
+
+			<button
+				type="button"
+				onclick={() => scrollToSection('problem')}
+				class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-sm transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+			>
+				<span>Why Form a Captive?</span>
+				<ChevronRight class="w-4 h-4 text-slate-400" />
+			</button>
+		</div>
+
+		<!-- Trust Highlights Grid (TwinFlow Style 4-Pillar Grid) -->
+		<div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full max-w-5xl text-left">
+			<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+				<div class="flex items-center gap-2 text-blue-700 text-xs font-bold mb-1.5">
+					<ShieldCheck class="w-4 h-4 text-blue-600" />
+					<span>Member-Owned</span>
+				</div>
+				<p class="text-xs text-slate-600 leading-relaxed">
+					Owned and governed directly by your association members, not corporate carriers.
 				</p>
 			</div>
-			<div class="flex items-center space-x-2 text-xs font-mono text-slate-400">
-				<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-				<span>D1 Synced: {data.projects.length} Programs</span>
+
+			<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+				<div class="flex items-center gap-2 text-emerald-700 text-xs font-bold mb-1.5">
+					<TrendingUp class="w-4 h-4 text-emerald-600" />
+					<span>Profit Participation</span>
+				</div>
+				<p class="text-xs text-slate-600 leading-relaxed">
+					Retain underwriting surplus and investment income instead of forfeiting premiums.
+				</p>
+			</div>
+
+			<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+				<div class="flex items-center gap-2 text-indigo-700 text-xs font-bold mb-1.5">
+					<Sliders class="w-4 h-4 text-indigo-600" />
+					<span>Custom Policies</span>
+				</div>
+				<p class="text-xs text-slate-600 leading-relaxed">
+					Freedom to write custom policy terms and tailor claims handling to your industry.
+				</p>
+			</div>
+
+			<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+				<div class="flex items-center gap-2 text-amber-700 text-xs font-bold mb-1.5">
+					<Landmark class="w-4 h-4 text-amber-600" />
+					<span>LOC Replacement</span>
+				</div>
+				<p class="text-xs text-slate-600 leading-relaxed">
+					Replace expensive commercial bank Letters of Credit with pooled standby capital.
+				</p>
 			</div>
 		</div>
-
-		<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-			{#each data.projects as project}
-				<div class="rounded-xl bg-slate-900/70 border border-slate-800/80 p-5 sm:p-6 space-y-5 hover:border-slate-700/80 transition-all duration-200">
-					<!-- Card Header -->
-					<div class="flex items-start justify-between gap-3">
-						<div class="space-y-1">
-							<span class="text-[11px] font-semibold uppercase tracking-wider text-brand-400">
-								{project.association?.name || 'Association Group'}
-							</span>
-							<h3 class="text-lg font-bold text-white leading-snug">
-								{project.name}
-							</h3>
-							<p class="text-xs text-slate-400 font-mono">
-								ID: {project.id} &bull; Entity: {project.association?.legalEntityType || 'Trade Group'}
-							</p>
-						</div>
-
-						<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-300 border border-brand-500/30 whitespace-nowrap">
-							<span class="w-1.5 h-1.5 rounded-full bg-brand-400 mr-1.5 animate-pulse"></span>
-							{project.stage}
-						</span>
-					</div>
-
-					<!-- Key Metrics Row -->
-					<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 p-3 rounded-lg bg-slate-950/70 border border-slate-800/70 text-xs">
-						<div>
-							<span class="text-slate-400 block text-[11px]">Combined Ratio Target</span>
-							<span class="font-bold text-white font-mono text-sm">
-								{formatPercent(project.combinedRatioTarget)}
-							</span>
-						</div>
-						<div>
-							<span class="text-slate-400 block text-[11px]">Surveys In Progress</span>
-							<span class="font-bold text-white font-mono text-sm">
-								{project.memberSurveys?.length || 1} Active
-							</span>
-						</div>
-						<div class="col-span-2 sm:col-span-1">
-							<span class="text-slate-400 block text-[11px]">Legal Entity</span>
-							<span class="font-medium text-slate-300 truncate block">
-								{project.association?.industrySlug || 'Captive'}
-							</span>
-						</div>
-					</div>
-
-					<!-- Capital Reserves breakdown for this project -->
-					<div class="space-y-2.5">
-						<div class="flex items-center justify-between text-xs">
-							<span class="font-medium text-slate-300 flex items-center space-x-1">
-								<Landmark class="w-3.5 h-3.5 text-emerald-400" />
-								<span>Capital Reserve Allocations (LOC Alternative)</span>
-							</span>
-							<span class="text-slate-400 text-[11px] font-mono">
-								{project.capitalReserves?.length || 0} Facilities
-							</span>
-						</div>
-
-						{#if project.capitalReserves && project.capitalReserves.length > 0}
-							<div class="space-y-2">
-								{#each project.capitalReserves as reserve}
-									{@const pct = Math.min(100, Math.round((reserve.allocatedAmount / reserve.requiredAmount) * 100))}
-									<div class="p-2.5 rounded-lg bg-slate-950/50 border border-slate-800/60 text-xs space-y-1.5">
-										<div class="flex items-center justify-between font-mono">
-											<span class="text-slate-300 font-semibold">{reserve.reserveType}</span>
-											<span class="text-emerald-400 font-bold">
-												{formatCurrency(reserve.allocatedAmount)} / {formatCurrency(reserve.requiredAmount)}
-											</span>
-										</div>
-
-										<!-- Progress Bar -->
-										<div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-											<div
-												class="h-full bg-gradient-to-r from-brand-500 to-emerald-400 rounded-full transition-all duration-500"
-												style="width: {pct}%"
-											></div>
-										</div>
-
-										<div class="flex items-center justify-between text-[11px] text-slate-400">
-											<span>Yield: {reserve.interestRate}% interest</span>
-											<span class="inline-flex items-center font-medium {reserve.status === 'Funded' ? 'text-emerald-400' : reserve.status === 'Pledged' ? 'text-brand-300' : 'text-amber-300'}">
-												Status: {reserve.status} ({pct}%)
-											</span>
-										</div>
-									</div>
-								{/each}
-							</div>
-						{:else}
-							<p class="text-xs text-slate-400 italic">No capital facilities configured.</p>
-						{/if}
-					</div>
-
-					<!-- Formation Stage Step indicator -->
-					<div class="pt-2 border-t border-slate-800/60">
-						<div class="flex items-center justify-between text-[11px] text-slate-400">
-							<span>Intake Gate</span>
-							<span class="text-brand-400 font-medium">Stage 7 of 9: Capital Formation</span>
-							<span>Bound Captive</span>
-						</div>
-					</div>
-				</div>
-			{/each}
-		</div>
 	</section>
 
-	<!-- 9-Stage Formation Milestone Pipeline -->
-	<section class="rounded-xl bg-slate-900/60 border border-slate-800/80 p-5 sm:p-6 space-y-4">
-		<div class="space-y-1">
-			<h2 class="text-lg font-bold text-white flex items-center space-x-2">
-				<TrendingUp class="w-5 h-5 text-indigo-400" />
-				<span>Alternative Risk Transfer (ART) Formation Roadmap</span>
+	<!-- =========================================================================
+	     2. THE PROBLEM SECTION (Exact User Copy)
+	     ========================================================================= -->
+	<section id="problem" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+		<div class="text-center max-w-3xl mx-auto mb-12">
+			<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold mb-3">
+				<AlertCircle class="w-3.5 h-3.5" />
+				<span>The Conventional Insurance Market Crisis</span>
+			</div>
+			<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+				The Problem
 			</h2>
-			<p class="text-xs sm:text-sm text-slate-400">
-				Deterministic gating milestones for association members from risk data intake to final reinsurance binding.
+			<p class="text-base text-slate-600 leading-relaxed">
+				As the global insurance market continues to harden, organizations are increasingly facing multiple challenges:
 			</p>
 		</div>
 
-		<div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2 text-center text-xs">
-			{#each pipelineStages as stage, idx}
-				{@const isCurrent = stage === 'CapitalFormation'}
-				{@const isPassed = idx < 6}
-				<div class="p-2.5 rounded-lg border flex flex-col items-center justify-between space-y-1 {isCurrent ? 'bg-brand-500/15 border-brand-500/50 text-white font-bold ring-1 ring-brand-500/40 shadow-sm' : isPassed ? 'bg-slate-950/70 border-emerald-500/30 text-slate-300' : 'bg-slate-950/30 border-slate-800/60 text-slate-400'}">
-					<span class="text-[10px] font-mono opacity-60">0{idx + 1}</span>
-					<span class="text-[11px] leading-tight">{stage}</span>
-					{#if isPassed}
-						<CheckCircle2 class="w-3.5 h-3.5 text-emerald-400 mt-0.5" />
-					{:else if isCurrent}
-						<span class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
-					{:else}
-						<span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span>
-					{/if}
+		<!-- 4 Core Problem Challenge Cards -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-12">
+			<div class="p-6 rounded-2xl bg-white border border-rose-200 shadow-xs flex items-start gap-4">
+				<div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center flex-shrink-0">
+					<XCircle class="w-5 h-5" />
 				</div>
-			{/each}
-		</div>
-	</section>
-
-	<!-- Feasibility Assessments & Fit Score Grid -->
-	<section id="feasibility" class="space-y-4">
-		<div class="border-b border-slate-800/80 pb-3">
-			<h2 class="text-xl font-bold text-white flex items-center space-x-2">
-				<Activity class="w-5 h-5 text-emerald-400" />
-				<span>Feasibility Assessments &amp; Fit Scores</span>
-			</h2>
-			<p class="text-xs sm:text-sm text-slate-400">
-				Actuarial intake algorithms evaluating loss ratios, volatility premiums, and captive suitability.
-			</p>
-		</div>
-
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-			{#each data.feasibilityAssessments as assessment}
-				<div class="rounded-xl bg-slate-900/60 border border-slate-800/80 p-5 space-y-3">
-					<div class="flex items-center justify-between">
-						<span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-							Fit Score: {assessment.fitScore} / 100
-						</span>
-						<span class="text-xs font-mono text-slate-400">
-							Status: <strong class="text-white">{assessment.status}</strong>
-						</span>
-					</div>
-
-					<div>
-						<h3 class="font-bold text-white text-base">{assessment.organizationType}</h3>
-						<p class="text-xs text-slate-400 mt-0.5 font-mono">Contact: {assessment.email}</p>
-					</div>
-
-					<p class="text-xs text-slate-300 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/60">
-						<strong class="text-slate-400 block text-[11px] uppercase tracking-wider mb-0.5">Primary Risk Concern:</strong>
-						{assessment.primaryConcern}
+				<div class="space-y-1">
+					<h3 class="text-base font-bold text-slate-900">
+						Insurers are no longer willing to underwrite certain risks.
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						Commercial carriers are withdrawing capacity across specialized and niche industries, leaving associations and trade members underinsured or completely dropped.
 					</p>
-
-					<div class="grid grid-cols-3 gap-2 text-center text-xs font-mono pt-1">
-						<div class="p-2 rounded bg-slate-950/40 border border-slate-800/60">
-							<span class="text-slate-400 block text-[10px]">Annual Premium</span>
-							<span class="text-white font-bold">{formatCurrency(assessment.annualPremium)}</span>
-						</div>
-						<div class="p-2 rounded bg-slate-950/40 border border-slate-800/60">
-							<span class="text-slate-400 block text-[10px]">5-Yr Losses</span>
-							<span class="text-white font-bold">{formatCurrency(assessment.fiveYearLosses)}</span>
-						</div>
-						<div class="p-2 rounded bg-slate-950/40 border border-slate-800/60">
-							<span class="text-slate-400 block text-[10px]">Loss Ratio</span>
-							<span class="text-emerald-400 font-bold">{formatPercent(assessment.lossRatio)}</span>
-						</div>
-					</div>
 				</div>
-			{/each}
+			</div>
+
+			<div class="p-6 rounded-2xl bg-white border border-rose-200 shadow-xs flex items-start gap-4">
+				<div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center flex-shrink-0">
+					<TrendingUp class="w-5 h-5" />
+				</div>
+				<div class="space-y-1">
+					<h3 class="text-base font-bold text-slate-900">
+						Premiums are going up, even for those who have favorable loss experiences.
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						Disciplined businesses with stellar safety records and minimal losses are penalized with steep annual rate hikes to subsidize unprofitable policyholders in broad commercial pools.
+					</p>
+				</div>
+			</div>
+
+			<div class="p-6 rounded-2xl bg-white border border-rose-200 shadow-xs flex items-start gap-4">
+				<div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center flex-shrink-0">
+					<AlertTriangle class="w-5 h-5" />
+				</div>
+				<div class="space-y-1">
+					<h3 class="text-base font-bold text-slate-900">
+						Coverage options for new policies are more limited, and insurers are reducing or eliminating certain coverages on renewal.
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						Carriers aggressively strip key coverage endorsements upon renewal, increase policy deductibles, and introduce restrictive sub-limits while charging higher overall premiums.
+					</p>
+				</div>
+			</div>
+
+			<div class="p-6 rounded-2xl bg-white border border-rose-200 shadow-xs flex items-start gap-4">
+				<div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center flex-shrink-0">
+					<Scale class="w-5 h-5" />
+				</div>
+				<div class="space-y-1">
+					<h3 class="text-base font-bold text-slate-900">
+						Insurers are increasingly denying claims. Business interruption claims due to COVID-19 are an example.
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						When unprecedented industry events occur, commercial carriers often default to blanket claim denials, protracted litigation, and legal exclusions rather than protecting their policyholders.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- TwinFlow-Style Comparison Module: Old Way vs Captive8 Way -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+			<!-- The Hardened Market -->
+			<div class="p-6 sm:p-8 rounded-2xl bg-white border border-rose-200 flex flex-col justify-between shadow-xs">
+				<div>
+					<div class="flex items-center gap-2 text-rose-700 font-bold text-xs uppercase tracking-wider mb-4">
+						<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+						<span>The Conventional Insurance Trap</span>
+					</div>
+					<ul class="space-y-3.5 text-xs text-slate-700">
+						<li class="flex items-start gap-2.5">
+							<span class="text-rose-500 font-bold">✕</span>
+							<span><strong>Uncontrollable Rate Hikes:</strong> Premiums spike regardless of individual member loss history.</span>
+						</li>
+						<li class="flex items-start gap-2.5">
+							<span class="text-rose-500 font-bold">✕</span>
+							<span><strong>Lost Capital:</strong> Unspent premiums are permanently pocketed by commercial insurance shareholders.</span>
+						</li>
+						<li class="flex items-start gap-2.5">
+							<span class="text-rose-500 font-bold">✕</span>
+							<span><strong>Coverage Exclusions:</strong> Rigid carrier forms that omit coverage for key industry-specific hazards.</span>
+						</li>
+						<li class="flex items-start gap-2.5">
+							<span class="text-rose-500 font-bold">✕</span>
+							<span><strong>Adversarial Claims:</strong> Outside adjusters focused on minimizing payouts and denying claims.</span>
+						</li>
+					</ul>
+				</div>
+				<div class="mt-6 pt-4 border-t border-rose-100 text-xs text-rose-700 font-medium">
+					Traditional outcome: <strong>Zero profit return &amp; complete market dependency</strong>
+				</div>
+			</div>
+
+			<!-- The Captive8 Solution -->
+			<div class="p-6 sm:p-8 rounded-2xl bg-white border-2 border-blue-600 flex flex-col justify-between shadow-md relative">
+				<div class="absolute top-0 right-0 px-3 py-1 bg-blue-600 text-[10px] font-bold text-white uppercase tracking-wider rounded-bl-xl">
+					The Captive8 Way
+				</div>
+				<div>
+					<div class="flex items-center gap-2 text-blue-700 font-bold text-xs uppercase tracking-wider mb-4">
+						<span class="w-2 h-2 rounded-full bg-blue-600"></span>
+						<span>Member-Owned Group Captive</span>
+					</div>
+					<ul class="space-y-3.5 text-xs text-slate-800">
+						<li class="flex items-start gap-2.5">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span><strong>Profit Participation:</strong> Underwriting surplus and investment income returned to member businesses.</span>
+						</li>
+						<li class="flex items-start gap-2.5">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span><strong>Tailored Policy Terms:</strong> Freedom to insure any risk your association chooses with custom conditions.</span>
+						</li>
+						<li class="flex items-start gap-2.5">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span><strong>Price Stabilization:</strong> Favorable loss ratios directly reduce or stabilize the cost of member coverage.</span>
+						</li>
+						<li class="flex items-start gap-2.5">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span><strong>Member-Led Claims:</strong> Establish your own fair, responsive claims handling guidelines and procedures.</span>
+						</li>
+					</ul>
+				</div>
+				<div class="mt-6 pt-4 border-t border-slate-100 text-xs text-blue-700 font-semibold">
+					Captive outcome: <strong>Underwriting profits retained by your member organizations</strong>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<!-- Role-Based Access Control (RBAC) Accounts Matrix -->
-	<section id="rbac" class="space-y-4">
-		<div class="border-b border-slate-800/80 pb-3">
-			<h2 class="text-xl font-bold text-white flex items-center space-x-2">
-				<Users class="w-5 h-5 text-indigo-400" />
-				<span>Role-Based Access Control (RBAC) Test Identities</span>
+	<!-- =========================================================================
+	     3. THE SOLUTION SECTION (Exact User Copy)
+	     ========================================================================= -->
+	<section id="solution" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+		<div class="text-center max-w-3xl mx-auto mb-12">
+			<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-3">
+				<ShieldCheck class="w-3.5 h-3.5" />
+				<span>Alternative Risk Transfer Advantage</span>
+			</div>
+			<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+				The Solution
 			</h2>
-			<p class="text-xs sm:text-sm text-slate-400">
-				Edge-compatible session authentication schemas with strictly defined permission scopes.
+			<p class="text-base text-slate-700 leading-relaxed font-medium max-w-3xl">
+				An online insurance marketplace where groups and associations can easily and cost effectively setup their own captive insurance company to provide customized coverages to their members while participating in the profitability of the underlying insurance program.
 			</p>
 		</div>
 
-		<div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/50">
-			<table class="w-full text-left text-xs">
-				<thead class="bg-slate-950/80 text-slate-400 uppercase text-[10px] tracking-wider font-semibold border-b border-slate-800">
-					<tr>
-						<th class="px-4 py-3">Role</th>
-						<th class="px-4 py-3">Representative Identity</th>
-						<th class="px-4 py-3">Email Address</th>
-						<th class="px-4 py-3">Scope &amp; Authority</th>
-					</tr>
-				</thead>
-				<tbody class="divide-y divide-slate-800/60 text-slate-300 font-mono">
-					{#each data.users as user}
-						<tr class="hover:bg-slate-800/40 transition-colors">
-							<td class="px-4 py-3 whitespace-nowrap">
-								<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-									{user.role}
-								</span>
-							</td>
-							<td class="px-4 py-3 text-white font-sans font-medium">
-								{user.name}
-							</td>
-							<td class="px-4 py-3 text-slate-300">
-								{user.email}
-							</td>
-							<td class="px-4 py-3 text-slate-400 font-sans text-xs">
-								{#if user.role === 'Admin'}
-									Full platform infrastructure, migrations, and tenant onboarding.
-								{:else if user.role === 'CaptiveStackAdministrator'}
-									Cross-program underwriting review, actuarial oversight, and capital reserves gating.
-								{:else if user.role === 'AssociationAdministrator'}
-									Manages trade group members, launches campaigns, and tracks survey progress.
-								{:else if user.role === 'AssociationMember'}
-									Submits loss runs, completes 11-step exposure survey, and certifies risk profile.
-								{:else if user.role === 'AdviserReviewer'}
-									Third-party actuary, legal counsel, and captive manager auditing milestones.
-								{/if}
-							</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
+		<!-- 6 Key Solution Advantage Cards (Exact User Copy) -->
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+			<!-- Advantage 1 -->
+			<div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition-colors">
+				<div class="space-y-3">
+					<div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center font-bold text-sm">
+						01
+					</div>
+					<h3 class="text-base font-bold text-slate-900">
+						Cover Hard-to-Place Risks
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						A captive may be able to provide coverages where the conventional market is unwilling or unable to for certain risks.
+					</p>
+				</div>
+				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-blue-600">
+					<span>Complete coverage availability</span>
+				</div>
+			</div>
+
+			<!-- Advantage 2 -->
+			<div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition-colors">
+				<div class="space-y-3">
+					<div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center font-bold text-sm">
+						02
+					</div>
+					<h3 class="text-base font-bold text-slate-900">
+						Price Reduction &amp; Stabilization
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						With a good loss ratio, the captive has the potential to reduce or at least stabilize the price of coverage.
+					</p>
+				</div>
+				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-emerald-600">
+					<span>Insulation from market cycles</span>
+				</div>
+			</div>
+
+			<!-- Advantage 3 -->
+			<div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition-colors">
+				<div class="space-y-3">
+					<div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center font-bold text-sm">
+						03
+					</div>
+					<h3 class="text-base font-bold text-slate-900">
+						Underwriting Profit Participation
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						A captive is able to participate in the profits of its own insurance program.
+					</p>
+				</div>
+				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-blue-600">
+					<span>Direct dividend distributions</span>
+				</div>
+			</div>
+
+			<!-- Advantage 4 -->
+			<div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition-colors">
+				<div class="space-y-3">
+					<div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center font-bold text-sm">
+						04
+					</div>
+					<h3 class="text-base font-bold text-slate-900">
+						Flexible Payment Planning
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						Establishing a captive allows more flexibility in premium payment planning.
+					</p>
+				</div>
+				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-indigo-600">
+					<span>Tailored cash flow scheduling</span>
+				</div>
+			</div>
+
+			<!-- Advantage 5 -->
+			<div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition-colors">
+				<div class="space-y-3">
+					<div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 text-purple-700 flex items-center justify-center font-bold text-sm">
+						05
+					</div>
+					<h3 class="text-base font-bold text-slate-900">
+						Policy Freedom &amp; Custom Terms
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						A captive has complete freedom to insure any risk it chooses and to customize the terms and conditions of its policies.
+					</p>
+				</div>
+				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-purple-600">
+					<span>Zero carrier restrictions</span>
+				</div>
+			</div>
+
+			<!-- Advantage 6 -->
+			<div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between hover:border-blue-300 transition-colors">
+				<div class="space-y-3">
+					<div class="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 text-teal-700 flex items-center justify-center font-bold text-sm">
+						06
+					</div>
+					<h3 class="text-base font-bold text-slate-900">
+						Member-Driven Claims Procedures
+					</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						A captive is also able to establish its own claims handling policies and procedures.
+					</p>
+				</div>
+				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-teal-600">
+					<span>Transparent, prompt claim settlement</span>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<!-- Local D1 Verification & Terminal Commands Section -->
-	<section class="rounded-xl bg-slate-900/80 border border-slate-800 p-5 sm:p-6 space-y-4">
-		<div class="flex items-center justify-between">
-			<div class="space-y-1">
-				<h2 class="text-base font-bold text-white flex items-center space-x-2">
-					<Database class="w-4 h-4 text-brand-400" />
-					<span>Cloudflare Wrangler &amp; D1 Local Verification Commands</span>
+	<!-- =========================================================================
+	     4. HOW IT WORKS (3-Step Workflow)
+	     ========================================================================= -->
+	<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="p-8 sm:p-12 rounded-3xl bg-white border border-slate-200 shadow-xs">
+			<div class="text-center max-w-2xl mx-auto mb-10">
+				<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-3">
+					<Layers class="w-3.5 h-3.5" />
+					<span>Streamlined Setup Process</span>
+				</div>
+				<h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+					How Captive8 Works for Your Group
 				</h2>
-				<p class="text-xs text-slate-400">
-					Terminal commands used to run and verify D1 migrations, inspect tables, and preview on Cloudflare Pages.
+				<p class="text-sm text-slate-600 leading-relaxed">
+					From initial loss history evaluation to licensing and profit distributions in three clear steps.
 				</p>
 			</div>
-			<span class="text-xs font-mono px-2 py-1 rounded bg-slate-950 text-emerald-400 border border-slate-800">
-				Wrangler v3.114.17
-			</span>
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				<div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+					<div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-2xs">
+						1
+					</div>
+					<h3 class="text-base font-bold text-slate-900">Evaluate Feasibility</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						Your association or group inputs member risk parameters and 5-year loss histories into our calculator to determine feasibility and projected underwriting profit.
+					</p>
+					<div class="pt-2">
+						<a href="/feasibility" class="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700">
+							<span>Try Feasibility Calculator</span>
+							<ChevronRight class="w-3.5 h-3.5 ml-0.5" />
+						</a>
+					</div>
+				</div>
+
+				<div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+					<div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-2xs">
+						2
+					</div>
+					<h3 class="text-base font-bold text-slate-900">Pool Risk &amp; Standby Capital</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						Members complete digital risk surveys and commit standby capital reserves, replacing expensive commercial bank Letters of Credit (LOC) with member-owned collateral.
+					</p>
+					<div class="pt-2">
+						<a href="/capital" class="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700">
+							<span>Explore Capital Model</span>
+							<ChevronRight class="w-3.5 h-3.5 ml-0.5" />
+						</a>
+					</div>
+				</div>
+
+				<div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+					<div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-2xs">
+						3
+					</div>
+					<h3 class="text-base font-bold text-slate-900">Form Captive &amp; Retain Profit</h3>
+					<p class="text-xs text-slate-600 leading-relaxed">
+						Your captive insurance company issues customized member policies, manages claims under your own rules, and distributes annual underwriting profits back to members.
+					</p>
+					<div class="pt-2">
+						<a href="/portal" class="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700">
+							<span>View Member Portal</span>
+							<ChevronRight class="w-3.5 h-3.5 ml-0.5" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- =========================================================================
+	     5. ABOUT US & VISION (Exact User Copy)
+	     ========================================================================= -->
+	<section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+		<div class="text-center max-w-3xl mx-auto mb-12">
+			<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-3">
+				<Building2 class="w-3.5 h-3.5" />
+				<span>About Captive8</span>
+			</div>
+			<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+				Find Out More About Us
+			</h2>
+			<p class="text-base sm:text-lg text-slate-700 font-medium leading-relaxed max-w-2xl mx-auto">
+				Captive8 was created out of the need to reduce the cost and complexity of captive insurance for small to medium sized organizations.
+			</p>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
-			<div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800/80 space-y-2">
-				<div class="flex items-center justify-between text-slate-400 text-[11px]">
-					<span>1. Apply Migrations to Local D1:</span>
-					<button
-						type="button"
-						onclick={() => copyToClipboard('npx wrangler d1 execute DB --local --file=./drizzle/0000_bitter_kid_colt.sql', 'cmd1')}
-						class="text-brand-400 hover:text-brand-300 flex items-center space-x-1"
-					>
-						{#if copiedSnippet === 'cmd1'}
-							<Check class="w-3 h-3 text-emerald-400" />
-							<span class="text-emerald-400">Copied</span>
-						{:else}
-							<Copy class="w-3 h-3" />
-							<span>Copy</span>
-						{/if}
-					</button>
+		<!-- Two Large Narrative Cards: Who We Are & Vision -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+			<!-- Who We Are Card -->
+			<div class="p-8 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between">
+				<div class="space-y-4">
+					<div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center shadow-2xs">
+						<Users class="w-6 h-6" />
+					</div>
+					<h3 class="text-2xl font-bold text-slate-900 tracking-tight">
+						Who We Are
+					</h3>
+					<p class="text-sm text-slate-600 leading-relaxed">
+						We specialize in the setup of captive insurance companies for associations and groups. "Association" or "group" captives are insurance companies that are owned and managed by multiple non-related organizations. Among other things, they offer the opportunity for members of a group or association to participate in the profitability of their own insurance program.
+					</p>
 				</div>
-				<pre class="text-slate-200 overflow-x-auto whitespace-pre-wrap break-all text-[11px] selection:bg-brand-500">npx wrangler d1 execute DB --local --file=./drizzle/0000_bitter_kid_colt.sql</pre>
+				<div class="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-blue-700">
+					<CheckCircle2 class="w-4 h-4 text-blue-600" />
+					<span>Specialized in Trade Association Group Captives</span>
+				</div>
 			</div>
 
-			<div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800/80 space-y-2">
-				<div class="flex items-center justify-between text-slate-400 text-[11px]">
-					<span>2. Seed Test Roles &amp; Pilot Captives:</span>
-					<button
-						type="button"
-						onclick={() => copyToClipboard('npx wrangler d1 execute DB --local --file=./src/lib/server/db/seed.sql', 'cmd2')}
-						class="text-brand-400 hover:text-brand-300 flex items-center space-x-1"
-					>
-						{#if copiedSnippet === 'cmd2'}
-							<Check class="w-3 h-3 text-emerald-400" />
-							<span class="text-emerald-400">Copied</span>
-						{:else}
-							<Copy class="w-3 h-3" />
-							<span>Copy</span>
-						{/if}
-					</button>
+			<!-- Vision Card -->
+			<div class="p-8 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between">
+				<div class="space-y-4">
+					<div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center shadow-2xs">
+						<Compass class="w-6 h-6" />
+					</div>
+					<h3 class="text-2xl font-bold text-slate-900 tracking-tight">
+						Vision
+					</h3>
+					<p class="text-sm text-slate-600 leading-relaxed">
+						To give small and medium sized businesses the opportunity to participate in the profitability of their own insurance programs while simultaneously having more control over claims and underwriting.
+					</p>
 				</div>
-				<pre class="text-slate-200 overflow-x-auto whitespace-pre-wrap break-all text-[11px] selection:bg-brand-500">npx wrangler d1 execute DB --local --file=./src/lib/server/db/seed.sql</pre>
+				<div class="pt-6 mt-6 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-emerald-700">
+					<CheckCircle2 class="w-4 h-4 text-emerald-600" />
+					<span>Control Over Claims &amp; Underwriting</span>
+				</div>
 			</div>
+		</div>
+	</section>
 
-			<div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800/80 space-y-2">
-				<div class="flex items-center justify-between text-slate-400 text-[11px]">
-					<span>3. Query Seeded Programs via Wrangler:</span>
-					<button
-						type="button"
-						onclick={() => copyToClipboard('npx wrangler d1 execute DB --local --command="SELECT name, stage FROM projects;"', 'cmd3')}
-						class="text-brand-400 hover:text-brand-300 flex items-center space-x-1"
-					>
-						{#if copiedSnippet === 'cmd3'}
-							<Check class="w-3 h-3 text-emerald-400" />
-							<span class="text-emerald-400">Copied</span>
-						{:else}
-							<Copy class="w-3 h-3" />
-							<span>Copy</span>
-						{/if}
-					</button>
-				</div>
-				<pre class="text-slate-200 overflow-x-auto whitespace-pre-wrap break-all text-[11px] selection:bg-brand-500">npx wrangler d1 execute DB --local --command="SELECT name, stage FROM projects;"</pre>
-			</div>
+	<!-- =========================================================================
+	     6. BOTTOM CALL-TO-ACTION BANNER (TwinFlow Style)
+	     ========================================================================= -->
+	<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white p-8 sm:p-14 text-center shadow-lg">
+			<!-- Subtle background glow -->
+			<div class="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
 
-			<div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800/80 space-y-2">
-				<div class="flex items-center justify-between text-slate-400 text-[11px]">
-					<span>4. Generate Next Drizzle Migration:</span>
-					<button
-						type="button"
-						onclick={() => copyToClipboard('npm run db:generate', 'cmd4')}
-						class="text-brand-400 hover:text-brand-300 flex items-center space-x-1"
-					>
-						{#if copiedSnippet === 'cmd4'}
-							<Check class="w-3 h-3 text-emerald-400" />
-							<span class="text-emerald-400">Copied</span>
-						{:else}
-							<Copy class="w-3 h-3" />
-							<span>Copy</span>
-						{/if}
-					</button>
+			<div class="relative z-10 max-w-3xl mx-auto space-y-6">
+				<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-white text-xs font-semibold">
+					<Sparkles class="w-3.5 h-3.5 text-blue-200" />
+					<span>Free Feasibility Evaluation</span>
 				</div>
-				<pre class="text-slate-200 overflow-x-auto whitespace-pre-wrap break-all text-[11px] selection:bg-brand-500">npm run db:generate</pre>
+
+				<h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+					Ready to setup your association's own captive insurance company?
+				</h2>
+
+				<p class="text-sm sm:text-base text-blue-100 leading-relaxed max-w-xl mx-auto">
+					Stop forfeiting premiums to commercial insurers. Calculate your group's feasibility, explore capital reserve requirements, and take control of your underwriting profitability.
+				</p>
+
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+					<a
+						href="/feasibility"
+						class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-blue-700 font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
+					>
+						<span>Evaluate Feasibility Now</span>
+						<ArrowRight class="w-4 h-4" />
+					</a>
+
+					<a
+						href="/capital"
+						class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-blue-500/30 hover:bg-blue-500/40 text-white font-semibold text-sm border border-white/20 transition-all flex items-center justify-center gap-2"
+					>
+						<Landmark class="w-4 h-4 text-blue-200" />
+						<span>View Capital &amp; LOC Model</span>
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
