@@ -35,10 +35,10 @@
 </script>
 
 <svelte:head>
-	<title>Captive8 | Member-Owned Group Captive Insurance</title>
+	<title>CaptiveStack | Member-Owned Group Captive Insurance</title>
 	<meta
 		name="description"
-		content="Captive8 makes it easy for groups and associations to setup their own insurance company to insure the risks of their members."
+		content="CaptiveStack makes it easy for groups and associations to setup their own insurance company to insure the risks of their members."
 	/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -87,7 +87,7 @@
 						<div class="flex flex-col">
 							<div class="flex items-center space-x-1.5">
 								<span class="font-extrabold text-xl tracking-tight text-slate-900">
-									Captive<span class="text-blue-600">8</span>
+									Captive<span class="text-blue-600">Stack</span>
 								</span>
 								<span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
 									Group Captives
@@ -251,11 +251,11 @@
 							<Shield class="w-4 h-4" />
 						</div>
 						<span class="font-extrabold text-lg text-slate-900 tracking-tight">
-							Captive<span class="text-blue-600">8</span>
+							Captive<span class="text-blue-600">Stack</span>
 						</span>
 					</div>
 					<p class="text-slate-600 text-xs leading-relaxed max-w-md">
-						Captive8 makes it easy for groups and associations to setup their own insurance company to insure the risks of their members. We reduce the cost and complexity of captive insurance for small to medium sized organizations.
+						CaptiveStack makes it easy for groups and associations to setup their own insurance company to insure the risks of their members. We reduce the cost and complexity of captive insurance for small to medium sized organizations.
 					</p>
 					<div class="flex flex-wrap gap-2 pt-1">
 						<span class="px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-medium">
@@ -281,7 +281,7 @@
 						</li>
 						<li>
 							<a href="/#solution" class="hover:text-blue-600 transition-colors">
-								The Captive8 Solution
+								The CaptiveStack Solution
 							</a>
 						</li>
 						<li>
@@ -331,7 +331,7 @@
 			</div>
 
 			<div class="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-				<p>&copy; {new Date().getFullYear()} Captive8 Inc. All rights reserved.</p>
+				<p>&copy; {new Date().getFullYear()} CaptiveStack Inc. All rights reserved.</p>
 				<p class="text-slate-500">
 					Member-Owned Group Captives &bull; Alternative Risk Financing &bull; Standby Capital Reserves
 				</p>

@@ -88,7 +88,7 @@
 </script>
 
 <svelte:head>
-	<title>Actuarial Review & Feasibility Audit Queue | Captive8</title>
+	<title>Actuarial Review & Feasibility Audit Queue | CaptiveStack</title>
 </svelte:head>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">

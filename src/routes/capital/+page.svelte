@@ -117,7 +117,7 @@
 </script>
 
 <svelte:head>
-	<title>Capital Reserves & LOC Replacement Engine | Captive8</title>
+	<title>Capital Reserves & LOC Replacement Engine | CaptiveStack</title>
 </svelte:head>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -138,7 +138,7 @@
 				Pooled Capital Reserves &amp; Standby Collateral
 			</h1>
 			<p class="text-sm text-slate-600 max-w-3xl leading-relaxed">
-				Commercial fronting carriers demand association members post bank Letters of Credit with 100% cash collateral and 1.5%&ndash;3.0% annual bank commitment fees. Captive8 replaces trapped bank LOCs with pooled standby capital pledges and subordinated surplus notes yielding 6.5% interest.
+				Commercial fronting carriers demand association members post bank Letters of Credit with 100% cash collateral and 1.5%&ndash;3.0% annual bank commitment fees. CaptiveStack replaces trapped bank LOCs with pooled standby capital pledges and subordinated surplus notes yielding 6.5% interest.
 			</p>
 
 			<!-- Program Switcher Buttons -->

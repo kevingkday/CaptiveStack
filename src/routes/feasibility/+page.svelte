@@ -140,7 +140,7 @@
 </script>
 
 <svelte:head>
-	<title>Feasibility Assessment Calculator & Milestone Gating | Captive8</title>
+	<title>Feasibility Assessment Calculator & Milestone Gating | CaptiveStack</title>
 </svelte:head>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -482,7 +482,7 @@
 						<span class="font-mono text-rose-600 font-bold">{formatCurrency(proForma.annualBankLOCFee)} / yr</span>
 					</div>
 					<div class="border-t border-slate-200 pt-2 flex items-center justify-between text-xs">
-						<span class="text-emerald-800 font-semibold">5-Year LOC Fees Saved in Captive8:</span>
+						<span class="text-emerald-800 font-semibold">5-Year LOC Fees Saved in CaptiveStack:</span>
 						<span class="font-mono text-emerald-700 font-bold text-sm">
 							{formatCurrency(proForma.fiveYearLOCSavings)}
 						</span>
@@ -490,7 +490,7 @@
 				</div>
 
 				<p class="text-[11px] text-slate-600 leading-relaxed">
-					Captive8 replaces trapped bank Letters of Credit with member standby capital pledges and subordinated surplus notes yielding 6.5% interest back to members.
+					CaptiveStack replaces trapped bank Letters of Credit with member standby capital pledges and subordinated surplus notes yielding 6.5% interest back to members.
 				</p>
 			</div>
 

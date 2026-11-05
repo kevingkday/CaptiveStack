@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-	<title>{roleMeta.displayName} Portal | Captive8</title>
+	<title>{roleMeta.displayName} Portal | CaptiveStack</title>
 </svelte:head>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">

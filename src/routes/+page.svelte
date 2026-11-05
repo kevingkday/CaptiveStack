@@ -38,10 +38,10 @@
 </script>
 
 <svelte:head>
-	<title>Captive8 | Member-Owned Group Captive Insurance</title>
+	<title>CaptiveStack | Member-Owned Group Captive Insurance</title>
 	<meta
 		name="description"
-		content="Captive8 makes it easy for groups and associations to setup their own insurance company to insure the risks of their members."
+		content="CaptiveStack makes it easy for groups and associations to setup their own insurance company to insure the risks of their members."
 	/>
 </svelte:head>
 
@@ -55,7 +55,7 @@
 			<span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
 			<span>Alternative Risk Marketplace</span>
 			<span class="text-slate-300">•</span>
-			<span class="text-slate-600 font-medium">Captive8 Formation Platform</span>
+			<span class="text-slate-600 font-medium">CaptiveStack Formation Platform</span>
 		</div>
 
 		<!-- Category Tagline -->
@@ -65,7 +65,7 @@
 
 		<!-- Main Headline -->
 		<h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl leading-[1.15] mb-6">
-			Captive8 makes it easy for groups and associations to setup their own insurance company to <span class="text-blue-600">insure the risks of their members.</span>
+			CaptiveStack makes it easy for groups and associations to setup their own insurance company to <span class="text-blue-600">insure the risks of their members.</span>
 		</h1>
 
 		<!-- Subtitle -->
@@ -214,7 +214,7 @@
 			</div>
 		</div>
 
-		<!-- TwinFlow-Style Comparison Module: Old Way vs Captive8 Way -->
+		<!-- TwinFlow-Style Comparison Module: Old Way vs CaptiveStack Way -->
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 			<!-- The Hardened Market -->
 			<div class="p-6 sm:p-8 rounded-2xl bg-white border border-rose-200 flex flex-col justify-between shadow-xs">
@@ -247,10 +247,10 @@
 				</div>
 			</div>
 
-			<!-- The Captive8 Solution -->
+			<!-- The CaptiveStack Solution -->
 			<div class="p-6 sm:p-8 rounded-2xl bg-white border-2 border-blue-600 flex flex-col justify-between shadow-md relative">
 				<div class="absolute top-0 right-0 px-3 py-1 bg-blue-600 text-[10px] font-bold text-white uppercase tracking-wider rounded-bl-xl">
-					The Captive8 Way
+					The CaptiveStack Way
 				</div>
 				<div>
 					<div class="flex items-center gap-2 text-blue-700 font-bold text-xs uppercase tracking-wider mb-4">
@@ -423,7 +423,7 @@
 					<span>Streamlined Setup Process</span>
 				</div>
 				<h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
-					How Captive8 Works for Your Group
+					How CaptiveStack Works for Your Group
 				</h2>
 				<p class="text-sm text-slate-600 leading-relaxed">
 					From initial loss history evaluation to licensing and profit distributions in three clear steps.
@@ -489,13 +489,13 @@
 		<div class="text-center max-w-3xl mx-auto mb-12">
 			<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-3">
 				<Building2 class="w-3.5 h-3.5" />
-				<span>About Captive8</span>
+				<span>About CaptiveStack</span>
 			</div>
 			<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
 				Find Out More About Us
 			</h2>
 			<p class="text-base sm:text-lg text-slate-700 font-medium leading-relaxed max-w-2xl mx-auto">
-				Captive8 was created out of the need to reduce the cost and complexity of captive insurance for small to medium sized organizations.
+				CaptiveStack was created out of the need to reduce the cost and complexity of captive insurance for small to medium sized organizations.
 			</p>
 		</div>
 

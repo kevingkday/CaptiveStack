@@ -74,7 +74,7 @@
 </script>
 
 <svelte:head>
-	<title>Sign In | Captive8 Access</title>
+	<title>Sign In | CaptiveStack Access</title>
 </svelte:head>
 
 <div class="min-h-[calc(100vh-140px)] flex flex-col justify-center py-10 px-4 sm:px-6 lg:px-8">
@@ -85,7 +85,7 @@
 				<Shield class="w-6 h-6" />
 			</div>
 			<h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-				Sign in to Captive8
+				Sign in to CaptiveStack
 			</h1>
 			<p class="text-xs sm:text-sm text-slate-600">
 				Member-owned captive platform with role-based governance
@@ -213,7 +213,7 @@
 		<!-- Footer Link Back to Home -->
 		<div class="text-center">
 			<a href="/" class="text-xs text-slate-500 hover:text-slate-900 transition-colors inline-flex items-center space-x-1 font-medium">
-				<span>&larr; Back to Captive8 Overview</span>
+				<span>&larr; Back to CaptiveStack Overview</span>
 			</a>
 		</div>
 	</div>
