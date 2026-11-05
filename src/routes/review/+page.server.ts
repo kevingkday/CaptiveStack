@@ -1,12 +1,13 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { getDb } from '$lib/server/db';
-import { projects, auditLogs, documentRecords } from '$lib/server/db/schema';
+import { projects, auditLogs } from '$lib/server/db/schema';
 import { seedData } from '$lib/server/db/seed-data';
 import { eq } from 'drizzle-orm';
+import { canPerformReviewAction } from '$lib/server/auth/rbac';
 
 export const load: PageServerLoad = async ({ platform, locals }) => {
-	if (!locals.user) {
+	if (!locals.user || !canPerformReviewAction(locals.user.role)) {
 		throw redirect(303, '/login?redirectTo=/review');
 	}
 
@@ -79,6 +80,10 @@ export const load: PageServerLoad = async ({ platform, locals }) => {
 
 export const actions: Actions = {
 	certifyStudy: async ({ request, platform, locals }) => {
+		if (!canPerformReviewAction(locals.user?.role)) {
+			return fail(403, { error: 'You do not have access to certify studies.' });
+		}
+
 		const formData = await request.formData();
 		const projectId = (formData.get('projectId') as string)?.trim();
 		const combinedRatioTarget = parseFloat(formData.get('combinedRatioTarget') as string) || 0.78;

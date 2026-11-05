@@ -228,8 +228,9 @@
 				<h3 class="text-sm font-bold text-slate-900">Active Member Surveys in Pipeline</h3>
 				<div class="space-y-2">
 					{#each data.surveys as survey}
-						<a
-							href="/survey/{survey.token}"
+						<svelte:element
+							this={survey.token ? 'a' : 'div'}
+							href={survey.token ? `/survey/${survey.token}` : undefined}
 							class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs block group"
 						>
 							<div>
@@ -237,7 +238,9 @@
 									<span class="font-bold text-slate-900 group-hover:text-blue-600 transition-colors font-sans">{survey.member?.name || 'Marcus Miller (AutoGlass Pro)'}</span>
 									<span class="text-[10px] text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200 font-mono">Open Survey</span>
 								</div>
-								<p class="text-slate-500 font-mono text-[11px]">Token: {survey.token}</p>
+								<p class="text-slate-500 font-mono text-[11px]">
+									{survey.token ? `Token: ${survey.token}` : 'Private intake link is not published here.'}
+								</p>
 							</div>
 							<div class="flex items-center space-x-3">
 								<span class="font-mono text-blue-700 font-semibold">Step {survey.stepCompleted} of 11</span>
@@ -245,7 +248,7 @@
 									{survey.isCertified ? 'Certified' : 'In Progress'}
 								</span>
 							</div>
-						</a>
+						</svelte:element>
 					{/each}
 				</div>
 			</div>
@@ -307,13 +310,9 @@
 						<Lock class="w-3.5 h-3.5 text-slate-400" />
 						<span>Protected by Secure Session &bull; Auto-saved</span>
 					</span>
-					<a
-						href="/survey/tk_eagle1_intake_verified_2026"
-						class="inline-flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-xs transition-colors"
-					>
-						<span>Open 11-Step Survey Intake Wizard</span>
-						<ArrowRight class="w-3.5 h-3.5" />
-					</a>
+					<span class="text-xs text-slate-500">
+						A private intake link is issued for each member and is not published here.
+					</span>
 				</div>
 			</div>
 		</div>
@@ -372,6 +371,7 @@
 		</div>
 	{/if}
 
+	{#if data.demoMode}
 	<!-- Quick Switcher Bar at Bottom -->
 	<section class="rounded-xl bg-white border border-slate-200 p-4 text-xs space-y-2 shadow-xs">
 		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -394,4 +394,5 @@
 			</div>
 		</div>
 	</section>
+	{/if}
 </div>

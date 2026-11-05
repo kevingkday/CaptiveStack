@@ -1,5 +1,6 @@
 import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
+import { createSurveyToken } from '../survey/token';
 
 // Role-Based Access Control (RBAC) Enums
 export const USER_ROLES = [
@@ -136,7 +137,10 @@ export const memberSurveys = sqliteTable('member_surveys', {
 		.notNull()
 		.references(() => projects.id, { onDelete: 'cascade' }),
 	memberId: text('member_id').references(() => users.id, { onDelete: 'set null' }),
-	token: text('token').notNull().unique(),
+	token: text('token')
+		.notNull()
+		.unique()
+		.$defaultFn(() => createSurveyToken()),
 	stepCompleted: integer('step_completed').notNull().default(1),
 	payload: text('payload', { mode: 'json' }).notNull(),
 	isCertified: integer('is_certified', { mode: 'boolean' }).notNull().default(false),

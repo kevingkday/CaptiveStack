@@ -1,7 +1,9 @@
 import type { LayoutServerLoad } from './$types';
+import { isDemoMode } from '$lib/server/auth/demo';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad = async ({ locals, platform }) => {
 	return {
+		demoMode: isDemoMode(platform?.env),
 		currentUser: locals.user
 			? {
 					id: locals.user.id,

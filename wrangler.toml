@@ -19,6 +19,8 @@ migrations_dir = "drizzle"
 # Environment Variables
 [vars]
 ENVIRONMENT = "development"
+# Exact "true" enables the persona switcher and seeded demo passwords. Keep false in production.
+DEMO_MODE = "false"
 PUBLIC_APP_NAME = "CaptiveStack"
 PUBLIC_APP_DESCRIPTION = "Alternative Risk Transfer & Trade Association Group Captive Formation"
 # Media CDN for static marketing assets (Zero local disk storage strategy)

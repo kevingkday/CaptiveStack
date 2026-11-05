@@ -1,17 +1,26 @@
-import { error, fail, redirect } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { getDb } from '$lib/server/db';
 import { memberSurveys, documentRecords, auditLogs } from '$lib/server/db/schema';
 import { seedData } from '$lib/server/db/seed-data';
+import { isDemoMode } from '$lib/server/auth/demo';
+import { resolveSurveyAccess } from '$lib/server/survey/token';
 import {
 	SURVEY_STEPS,
 	getDefaultSurveyPayload,
 	type MemberSurveyPayload
 } from '$lib/survey/types';
 
-export const load: PageServerLoad = async ({ params, platform, locals }) => {
+function assertSurveyAccess(token: string, demoMode: boolean, hasExactRecord: boolean) {
+	if (resolveSurveyAccess({ token, demoMode, hasExactRecord }) === 'deny') {
+		throw error(404, 'Survey not found');
+	}
+}
+
+export const load: PageServerLoad = async ({ params, platform }) => {
 	const token = params.token;
+	const demoMode = isDemoMode(platform?.env);
 
 	let surveyRecord: any = null;
 	let projectRecord: any = null;
@@ -31,31 +40,26 @@ export const load: PageServerLoad = async ({ params, platform, locals }) => {
 			}
 		});
 
-		if (found) {
-			surveyRecord = found;
-			projectRecord = found.project;
-			associationRecord = found.project?.association;
+		assertSurveyAccess(token, demoMode, Boolean(found));
 
-			const docs = await db.query.documentRecords.findMany({
-				where: eq(documentRecords.parentId, found.id)
-			});
-			documents = docs;
-		}
-	}
+		surveyRecord = found;
+		projectRecord = found?.project;
+		associationRecord = found?.project?.association;
 
-	// Fallback to seed data if not found or running dev
-	if (!surveyRecord) {
-		const seedSurvey = seedData.memberSurveys.find((s) => s.token === token) || seedData.memberSurveys[0];
+		const docs = await db.query.documentRecords.findMany({
+			where: eq(documentRecords.parentId, found!.id)
+		});
+		documents = docs;
+	} else {
+		const seedSurvey = seedData.memberSurveys.find((s) => s.token === token);
+		assertSurveyAccess(token, demoMode, Boolean(seedSurvey));
 		surveyRecord = {
 			...seedSurvey,
-			isCertified: Boolean(seedSurvey.isCertified)
+			isCertified: Boolean(seedSurvey?.isCertified)
 		};
-		projectRecord = seedData.projects.find((p) => p.id === seedSurvey.projectId) || seedData.projects[0];
-		associationRecord =
-			seedData.associations.find((a) => a.id === projectRecord.associationId) || seedData.associations[0];
-		documents = seedData.documentRecords.filter(
-			(d) => d.parentId === surveyRecord.id || d.parentEntityType === 'MemberSurvey'
-		);
+		projectRecord = seedData.projects.find((p) => p.id === seedSurvey?.projectId);
+		associationRecord = seedData.associations.find((a) => a.id === projectRecord?.associationId);
+		documents = seedData.documentRecords.filter((d) => d.parentId === surveyRecord.id);
 	}
 
 	let payload: MemberSurveyPayload;
@@ -98,6 +102,7 @@ export const load: PageServerLoad = async ({ params, platform, locals }) => {
 export const actions: Actions = {
 	saveStep: async ({ request, params, platform, locals }) => {
 		const token = params.token;
+		const demoMode = isDemoMode(platform?.env);
 		const formData = await request.formData();
 		const currentStep = parseInt(formData.get('step')?.toString() || '1', 10);
 		const payloadRaw = formData.get('payload')?.toString();
@@ -120,6 +125,7 @@ export const actions: Actions = {
 			const existing = await db.query.memberSurveys.findFirst({
 				where: eq(memberSurveys.token, token)
 			});
+			assertSurveyAccess(token, demoMode, Boolean(existing));
 
 			if (existing) {
 				const maxStep = Math.max(existing.stepCompleted, nextStep);
@@ -141,6 +147,9 @@ export const actions: Actions = {
 					timestamp: new Date().toISOString()
 				});
 			}
+		} else {
+			const seedSurvey = seedData.memberSurveys.find((s) => s.token === token);
+			assertSurveyAccess(token, demoMode, Boolean(seedSurvey));
 		}
 
 		return {
@@ -152,6 +161,7 @@ export const actions: Actions = {
 
 	certify: async ({ request, params, platform, locals }) => {
 		const token = params.token;
+		const demoMode = isDemoMode(platform?.env);
 		const formData = await request.formData();
 		const signature = formData.get('signature')?.toString()?.trim();
 		const title = formData.get('title')?.toString()?.trim();
@@ -166,6 +176,7 @@ export const actions: Actions = {
 			const existing = await db.query.memberSurveys.findFirst({
 				where: eq(memberSurveys.token, token)
 			});
+			assertSurveyAccess(token, demoMode, Boolean(existing));
 
 			if (existing) {
 				let payload: any = {};
@@ -207,6 +218,9 @@ export const actions: Actions = {
 					timestamp: new Date().toISOString()
 				});
 			}
+		} else {
+			const seedSurvey = seedData.memberSurveys.find((s) => s.token === token);
+			assertSurveyAccess(token, demoMode, Boolean(seedSurvey));
 		}
 
 		return {

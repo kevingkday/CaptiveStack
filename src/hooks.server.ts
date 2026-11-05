@@ -1,8 +1,9 @@
 import type { Handle } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import { getDb } from '$lib/server/db';
-import { validateSession, SESSION_COOKIE_NAME, deleteSessionCookie } from '$lib/server/auth';
+import { validateSession, SESSION_COOKIE_NAME, deleteSessionCookie, toSessionUser } from '$lib/server/auth';
 import { isRouteAllowed } from '$lib/server/auth/rbac';
+import { isDemoMode } from '$lib/server/auth/demo';
 import { seedData } from '$lib/server/db/seed-data';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -17,7 +18,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				const db = getDb(event.platform.env.DB);
 				const auth = await validateSession(db, sessionId);
 				if (auth) {
-					event.locals.user = auth.user;
+					event.locals.user = toSessionUser(auth.user);
 					event.locals.session = auth.session;
 				} else {
 					deleteSessionCookie(event.cookies);
@@ -25,16 +26,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 			} catch (err) {
 				console.error('[Auth Hook Error]', err);
 			}
-		} else {
-			// Local development seed fallback when running pure Vite dev
+		} else if (isDemoMode(event.platform?.env)) {
+			// Seeded persona cookies exist only for an explicit DEMO_MODE session.
 			const matchedUser = seedData.users.find(
 				(u) => sessionId === `demo_${u.id}` || sessionId === u.id
 			);
 			if (matchedUser) {
-				event.locals.user = {
+				event.locals.user = toSessionUser({
 					...matchedUser,
 					createdAt: matchedUser.createdAt
-				};
+				});
 				event.locals.session = {
 					id: sessionId,
 					userId: matchedUser.id,
@@ -42,6 +43,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 					createdAt: new Date().toISOString()
 				};
 			}
+		} else if (sessionId.startsWith('demo_')) {
+			deleteSessionCookie(event.cookies);
 		}
 	}
 

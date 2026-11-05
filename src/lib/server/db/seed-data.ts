@@ -1,3 +1,5 @@
+import { SEEDED_PLACEHOLDER_HASH } from '../auth/demo';
+
 export interface SeedData {
 	users: Array<{
 		id: string;
@@ -84,7 +86,7 @@ export const seedData: SeedData = {
 			email: 'admin@captivestack.com',
 			name: 'CaptiveStack System Admin',
 			role: 'Admin',
-			passwordHash: '$2a$12$e9qO2qS4.K9Xw3fJ1O/1MeFp5KxR4zW1V8P6C0H7B2M4D5F8A1G2H',
+			passwordHash: SEEDED_PLACEHOLDER_HASH,
 			createdAt: now
 		},
 		{
@@ -92,7 +94,7 @@ export const seedData: SeedData = {
 			email: 'csa@captivestack.com',
 			name: 'Sarah Underwriter (Platform CSA)',
 			role: 'CaptiveStackAdministrator',
-			passwordHash: '$2a$12$e9qO2qS4.K9Xw3fJ1O/1MeFp5KxR4zW1V8P6C0H7B2M4D5F8A1G2H',
+			passwordHash: SEEDED_PLACEHOLDER_HASH,
 			createdAt: now
 		},
 		{
@@ -100,7 +102,7 @@ export const seedData: SeedData = {
 			email: 'admin@glassco.org',
 			name: 'David Vance (GlassCo Exec Director)',
 			role: 'AssociationAdministrator',
-			passwordHash: '$2a$12$e9qO2qS4.K9Xw3fJ1O/1MeFp5KxR4zW1V8P6C0H7B2M4D5F8A1G2H',
+			passwordHash: SEEDED_PLACEHOLDER_HASH,
 			createdAt: now
 		},
 		{
@@ -108,7 +110,7 @@ export const seedData: SeedData = {
 			email: 'marcus@autoglasspro.com',
 			name: 'Marcus Miller (GlassCo Dealer)',
 			role: 'AssociationMember',
-			passwordHash: '$2a$12$e9qO2qS4.K9Xw3fJ1O/1MeFp5KxR4zW1V8P6C0H7B2M4D5F8A1G2H',
+			passwordHash: SEEDED_PLACEHOLDER_HASH,
 			createdAt: now
 		},
 		{
@@ -116,7 +118,7 @@ export const seedData: SeedData = {
 			email: 'elena@actuarialrisk.com',
 			name: 'Dr. Elena Rostova (Adviser Reviewer)',
 			role: 'AdviserReviewer',
-			passwordHash: '$2a$12$e9qO2qS4.K9Xw3fJ1O/1MeFp5KxR4zW1V8P6C0H7B2M4D5F8A1G2H',
+			passwordHash: SEEDED_PLACEHOLDER_HASH,
 			createdAt: now
 		}
 	],
@@ -187,6 +189,7 @@ export const seedData: SeedData = {
 			id: 'msv_eagle1_demo',
 			projectId: 'prj_eagle1_pilot',
 			memberId: 'usr_assoc_member_004',
+			// Predictable demo token. Served only when DEMO_MODE=true; new rows use createSurveyToken().
 			token: 'tk_eagle1_intake_verified_2026',
 			stepCompleted: 8,
 			payload: JSON.stringify({

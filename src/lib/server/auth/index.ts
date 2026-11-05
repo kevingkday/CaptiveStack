@@ -96,6 +96,12 @@ export function setSessionCookie(cookies: Cookies, sessionId: string, expiresAt:
 /**
  * Deletes the session cookie.
  */
+/** Session users are serialized to the client. Never keep the password digest. */
+export function toSessionUser<T extends { passwordHash?: string }>(user: T): T {
+	if (!user || !('passwordHash' in user)) return user;
+	return { ...user, passwordHash: '' };
+}
+
 export function deleteSessionCookie(cookies: Cookies): void {
 	cookies.delete(SESSION_COOKIE_NAME, {
 		path: '/'

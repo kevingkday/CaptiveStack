@@ -8,6 +8,7 @@ declare global {
 				DB: D1Database;
 				DOCUMENTS_BUCKET?: R2Bucket;
 				ENVIRONMENT?: string;
+				DEMO_MODE?: string;
 				R2_ACCESS_KEY_ID?: string;
 				R2_SECRET_ACCESS_KEY?: string;
 				R2_ENDPOINT?: string;
