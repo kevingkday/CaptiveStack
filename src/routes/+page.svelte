@@ -53,9 +53,14 @@
 		<!-- Eyebrow Pill -->
 		<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-6 shadow-2xs">
 			<span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-			<span>Member-Owned Group Captive Insurance</span>
+			<span>Alternative Risk Marketplace</span>
 			<span class="text-slate-300">•</span>
-			<span class="text-slate-600 font-medium">Alternative Risk Marketplace</span>
+			<span class="text-slate-600 font-medium">Captive8 Formation Platform</span>
+		</div>
+
+		<!-- Category Tagline -->
+		<div class="text-xs sm:text-sm font-bold uppercase tracking-wider text-blue-600 mb-3">
+			Member-owned group captive insurance
 		</div>
 
 		<!-- Main Headline -->
