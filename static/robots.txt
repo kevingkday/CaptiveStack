@@ -1,3 +1,8 @@
-# allow crawling everything by default
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /portal
+Disallow: /review
+Disallow: /survey/
+Disallow: /api/
+
+Sitemap: https://www.captivestack.com/sitemap.xml

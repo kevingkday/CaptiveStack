@@ -18,7 +18,11 @@
 		Layers,
 		Check,
 		Clock,
-		Sparkles
+		Sparkles,
+		Send,
+		Phone,
+		Mail,
+		FileText
 	} from 'lucide-svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
@@ -30,12 +34,27 @@
 	let riskCategory = $state<'PrizeIndemnity' | 'GlassReplacement' | 'TradeContractor' | 'FleetTransportation'>('PrizeIndemnity');
 	let organizationType = $state('Eagle1 Golf Tournament Association');
 	let email = $state('underwriting@eagle1golf.org');
-	let primaryConcern = $state('Eliminating 2.5% bank Letter of Credit fees on prize underwriting collateral');
+	let primaryConcern = $state('Modeling alternative standby collateral to replace 2.5% bank Letter of Credit fees');
 	let isSubmitting = $state(false);
+
+	// Lead review request form state
+	let leadName = $state('');
+	let leadAssociation = $state('');
+	let leadMemberCount = $state<number | ''>('');
+	let leadCoverage = $state('Commercial General Liability');
+	let leadPremiumSize = $state('$1,000,000 - $2,500,000');
+	let leadEmail = $state('');
+	let leadPhone = $state('');
+	let leadNotes = $state('');
+	let isSubmittingLead = $state(false);
 
 	$effect(() => {
 		if (data.user?.email) {
 			email = data.user.email;
+			if (!leadEmail) leadEmail = data.user.email;
+		}
+		if (data.user?.name && !leadName) {
+			leadName = data.user.name;
 		}
 	});
 
@@ -83,10 +102,10 @@
 		const reinsuranceCeded = gross * 0.22; // Stop loss excess of loss treaty (22%)
 		const captiveRetained = gross - reinsuranceCeded;
 		const netUnderwritingProfit = captiveRetained - expectedClaims - operatingExpense;
-		const traditionalCarrierProfitRetained = gross * 0.35; // Carrier pocketed margin
+		const traditionalCarrierProfitRetained = gross * 0.35; // Carrier margin
 
 		// Bank LOC Replacement
-		const requiredBankLOC = gross * 0.45; // 45% collateral requirement
+		const requiredBankLOC = gross * 0.45; // 45% collateral benchmark
 		const annualBankLOCFee = requiredBankLOC * 0.025; // 2.5% bank commitment fee
 		const fiveYearLOCSavings = annualBankLOCFee * 5;
 		const fiveYearCumulativeMemberProfit = netUnderwritingProfit * 5;
@@ -120,27 +139,31 @@
 			lossRatioPercent = 33;
 			riskCategory = 'PrizeIndemnity';
 			organizationType = 'Eagle1 Golf Tournament Association';
-			primaryConcern = 'Replacing $1.5M bank Letter of Credit for par-3 prize collateral';
+			primaryConcern = 'Modeling alternative standby collateral for par-3 prize program';
 		} else if (preset === 'GlassCo') {
 			memberCount = 48;
 			avgMemberPremium = 52083; // $2.5M
 			lossRatioPercent = 57;
 			riskCategory = 'GlassReplacement';
 			organizationType = 'GlassCo Windshield Warranty Group';
-			primaryConcern = 'Pooling multi-state auto glass claims & retaining underwriting surplus';
+			primaryConcern = 'Pooling multi-state glass claims and retaining potential surplus';
 		} else {
 			memberCount = 22;
 			avgMemberPremium = 65000;
 			lossRatioPercent = 48;
 			riskCategory = 'TradeContractor';
 			organizationType = 'National Specialty Trade Contractors';
-			primaryConcern = 'Escaping traditional commercial hardening and unreturned premiums';
+			primaryConcern = 'Stabilizing hardening commercial property/casualty rates';
 		}
 	}
 </script>
 
 <svelte:head>
-	<title>Feasibility Assessment Calculator & Milestone Gating | CaptiveStack</title>
+	<title>Group Captive Feasibility Calculator | CaptiveStack</title>
+	<meta
+		name="description"
+		content="Evaluate group captive insurance viability in real time. Model alternative collateral mechanisms, simulate underwriting surplus, and qualify for formation milestone gates."
+	/>
 </svelte:head>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -155,18 +178,21 @@
 				<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
 					Real-Time Feasibility Engine
 				</span>
+				<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200">
+					Illustrative Scenario Modeling
+				</span>
 			</div>
 
 			<h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
 				Alternative Risk Transfer (ART) Feasibility Calculator
 			</h1>
 			<p class="text-sm text-slate-600 max-w-3xl leading-relaxed">
-				Evaluate group captive viability in real time. Simulate underwriting returns, model Bank Letter of Credit (LOC) replacement savings, and qualify for formation milestone gates.
+				Evaluate group captive viability in real time. Simulate potential underwriting returns, model alternative collateral mechanisms, and review formation milestone readiness.
 			</p>
 
 			<!-- Quick Presets -->
 			<div class="pt-2 flex flex-wrap items-center gap-2 text-xs">
-				<span class="text-slate-500 font-medium">Load Pilot Presets:</span>
+				<span class="text-slate-500 font-medium">Load Illustrative Scenarios (Sample data):</span>
 				<button
 					type="button"
 					onclick={() => applyPreset('Eagle1')}
@@ -247,7 +273,7 @@
 							/>
 						</div>
 						<div class="space-y-1.5">
-							<label for="email" class="text-slate-700 font-medium">Underwriting Contact Email</label>
+							<label for="email" class="text-slate-700 font-medium">Contact Email</label>
 							<input
 								id="email"
 								name="email"
@@ -260,7 +286,7 @@
 					</div>
 
 					<div class="space-y-1.5 text-xs">
-						<label for="primaryConcern" class="text-slate-700 font-medium">Primary ART Strategic Objective</label>
+						<label for="primaryConcern" class="text-slate-700 font-medium">Primary Risk Transfer Objective</label>
 						<input
 							id="primaryConcern"
 							name="primaryConcern"
@@ -275,9 +301,9 @@
 						<span class="text-xs text-slate-700 font-medium block">Program Risk Category</span>
 						<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
 							{#each [
-								{ id: 'PrizeIndemnity', label: 'Prize Indemnity', desc: 'Golf Hole-in-One' },
-								{ id: 'GlassReplacement', label: 'Auto Glass', desc: 'Warranty Pool' },
-								{ id: 'TradeContractor', label: 'Trade Contractor', desc: 'Artisan / Defect' },
+								{ id: 'PrizeIndemnity', label: 'Prize Indemnity', desc: 'Contingency / Prize Pool' },
+								{ id: 'GlassReplacement', label: 'Warranty Pool', desc: 'Automotive / Specialty' },
+								{ id: 'TradeContractor', label: 'Trade Contractor', desc: 'Artisan / Liability' },
 								{ id: 'FleetTransportation', label: 'Fleet / Cargo', desc: 'Specialty Transit' }
 							] as cat}
 								<button
@@ -364,7 +390,7 @@
 							class="w-full accent-amber-500 cursor-pointer"
 						/>
 						<div class="flex justify-between text-[10px] font-mono text-slate-500">
-							<span>15% Excellent (Eagle1: 33%)</span>
+							<span>15% Favorable</span>
 							<span>5-Yr Claims: {formatCurrency(fiveYearLosses)}</span>
 							<span>90% Distressed</span>
 						</div>
@@ -378,10 +404,10 @@
 						>
 							{#if isSubmitting}
 								<span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-								<span>Recording Assessment...</span>
+								<span>Simulating &amp; Recording Assessment...</span>
 							{:else}
 								<Sparkles class="w-4 h-4 text-blue-200" />
-								<span>Certify &amp; Save Feasibility Assessment</span>
+								<span>Calculate &amp; Save Feasibility Estimate</span>
 							{/if}
 						</button>
 					</div>
@@ -396,7 +422,7 @@
 				<div class="flex items-center justify-between border-b border-slate-200 pb-3">
 					<span class="text-xs font-bold uppercase tracking-wider text-slate-500">Actuarial Viability Rating</span>
 					<span class="text-xs font-semibold px-2 py-0.5 rounded-full {scoreBreakdown.total >= 75 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">
-						{scoreBreakdown.total >= 75 ? 'Tier-1 Qualified' : 'Feasible with Stop-Loss'}
+						{scoreBreakdown.total >= 75 ? 'Tier-1 Candidate' : 'Feasible with Stop-Loss'}
 					</span>
 				</div>
 
@@ -411,11 +437,11 @@
 					<div class="space-y-1">
 						<h3 class="text-base font-bold text-slate-900">
 							{#if scoreBreakdown.total >= 80}
-								High-Yield Captive Candidate
+								High-Fit Group Candidate
 							{:else if scoreBreakdown.total >= 65}
-								Viable Alternative Risk Program
+								Viable Alternative Risk Transfer Candidate
 							{:else}
-								Conditional Feasibility
+								Conditional Viability
 							{/if}
 						</h3>
 						<p class="text-xs text-slate-600 leading-relaxed">
@@ -460,15 +486,15 @@
 				</div>
 			</div>
 
-			<!-- Letter of Credit (LOC) Replacement Economics Card -->
+			<!-- Letter of Credit (LOC) Collateral Optimization Card -->
 			<div class="rounded-xl bg-white border border-blue-200 p-6 space-y-4 shadow-xs">
 				<div class="flex items-center justify-between">
 					<span class="text-xs font-bold uppercase tracking-wider text-blue-700 flex items-center space-x-1.5">
 						<Landmark class="w-4 h-4 text-emerald-600" />
-						<span>Bank LOC Replacement Advantage</span>
+						<span>Collateral &amp; LOC Alternative Modeling</span>
 					</span>
 					<span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-						Zero Bank Collateral
+						Standby Capital Model
 					</span>
 				</div>
 
@@ -482,7 +508,7 @@
 						<span class="font-mono text-rose-600 font-bold">{formatCurrency(proForma.annualBankLOCFee)} / yr</span>
 					</div>
 					<div class="border-t border-slate-200 pt-2 flex items-center justify-between text-xs">
-						<span class="text-emerald-800 font-semibold">5-Year LOC Fees Saved in CaptiveStack:</span>
+						<span class="text-emerald-800 font-semibold">Potential 5-Year Collateral Savings:</span>
 						<span class="font-mono text-emerald-700 font-bold text-sm">
 							{formatCurrency(proForma.fiveYearLOCSavings)}
 						</span>
@@ -490,14 +516,14 @@
 				</div>
 
 				<p class="text-[11px] text-slate-600 leading-relaxed">
-					CaptiveStack replaces trapped bank Letters of Credit with member standby capital pledges and subordinated surplus notes yielding 6.5% interest back to members.
+					CaptiveStack helps associations model alternative collateral mechanisms—such as member standby capital pledges and surplus notes—which can reduce reliance on commercial bank LOCs, subject to fronting carrier and domicile regulatory acceptance.
 				</p>
 			</div>
 
 			<!-- 5-Year Underwriting Member Return Card -->
 			<div class="rounded-xl bg-white border border-slate-200 p-6 space-y-4 shadow-xs">
 				<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">
-					5-Year Projected Member Underwriting Return
+					5-Year Illustrative Underwriting Projection
 				</h3>
 
 				<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs font-mono">
@@ -514,9 +540,17 @@
 						<span class="text-slate-700 font-bold">-{formatCurrency((proForma.reinsuranceCeded + proForma.operatingExpense) * 5)}</span>
 					</div>
 					<div class="border-t border-slate-200 pt-2 flex items-center justify-between font-bold text-sm">
-						<span class="text-emerald-700 font-sans">Underwriting Profit Returned:</span>
+						<span class="text-emerald-700 font-sans">Potential Underwriting Surplus:</span>
 						<span class="text-emerald-700">{formatCurrency(proForma.fiveYearCumulativeMemberProfit)}</span>
 					</div>
+				</div>
+
+				<!-- Calculator Result Disclaimer Notice -->
+				<div class="p-3 rounded-lg bg-amber-50/80 border border-amber-200 text-[11px] text-amber-900 flex items-start space-x-2">
+					<AlertCircle class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+					<p class="leading-relaxed">
+						<strong>Notice:</strong> Illustrative estimates, not an actuarial opinion or offer. Results are subject to independent actuarial study, fronting carrier criteria, and domicile regulatory approval.
+					</p>
 				</div>
 
 				<div class="flex items-center justify-between pt-2">
@@ -524,7 +558,7 @@
 						href="/capital"
 						class="text-xs text-blue-600 hover:text-blue-700 font-semibold flex items-center space-x-1"
 					>
-						<span>Explore Capital Formation &amp; Quota-Share</span>
+						<span>Explore Capital &amp; Standby Collateral Modeling</span>
 						<ArrowRight class="w-3.5 h-3.5" />
 					</a>
 				</div>
@@ -532,16 +566,235 @@
 		</div>
 	</div>
 
+	<!-- =========================================================================
+	     LEAD CAPTURE SECTION: "Get a Feasibility Review"
+	     ========================================================================= -->
+	<section id="review-form" class="rounded-2xl bg-white border-2 border-blue-600 p-6 sm:p-10 shadow-md space-y-6 scroll-mt-24">
+		<div class="flex flex-col md:flex-row md:items-start justify-between gap-6 border-b border-slate-200 pb-6">
+			<div class="space-y-2 max-w-2xl">
+				<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
+					<Mail class="w-3.5 h-3.5" />
+					<span>Confidential Risk Review</span>
+				</div>
+				<h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+					Get a Professional Group Feasibility Review
+				</h2>
+				<p class="text-sm text-slate-600 leading-relaxed">
+					Ready to explore whether an association captive makes financial sense for your group? Submit your preliminary metrics below. <strong>Kevin Day</strong> and our captive advisory network will review your risk pool parameters and provide guidance.
+				</p>
+			</div>
+			<div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5 shrink-0 max-w-xs">
+				<span class="font-bold text-slate-900 block">No Marketing Spam:</span>
+				<p class="text-slate-600 text-[11px] leading-relaxed">
+					We do not send automated outbound marketing drip campaigns. You will receive a direct evaluation from our team within 1&ndash;2 business days.
+				</p>
+			</div>
+		</div>
+
+		{#if form?.reviewSuccess}
+			<div class="p-6 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-3 animate-in fade-in duration-200">
+				<div class="flex items-center space-x-2 text-base font-bold text-emerald-800">
+					<CheckCircle2 class="w-6 h-6 text-emerald-600" />
+					<span>Feasibility Review Request Successfully Received</span>
+				</div>
+				<p class="text-xs text-emerald-800 leading-relaxed">
+					Thank you, <strong>{form.lead?.name}</strong>. Your feasibility review request for <strong>{form.lead?.associationName}</strong> ({form.lead?.memberCount} members, {form.lead?.lineOfCoverage}) has been securely logged and notified to <strong>Kevin Day</strong>. We will review your preliminary details and follow up directly.
+				</p>
+				<p class="text-[11px] text-emerald-700 font-mono">
+					Confirmation ID: {form.lead?.id} &bull; No automated outbound emails have been sent.
+				</p>
+			</div>
+		{:else}
+			{#if form?.reviewError}
+				<div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start space-x-2.5">
+					<AlertCircle class="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+					<span>{form.reviewError}</span>
+				</div>
+			{/if}
+
+			<form
+				method="POST"
+				action="?/requestReview"
+				use:enhance={() => {
+					isSubmittingLead = true;
+					return async ({ update }) => {
+						await update();
+						isSubmittingLead = false;
+					};
+				}}
+				class="space-y-6"
+			>
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 text-xs">
+					<!-- Contact Name -->
+					<div class="space-y-1.5">
+						<label for="leadName" class="block font-semibold text-slate-700">
+							Your Full Name <span class="text-rose-500">*</span>
+						</label>
+						<input
+							id="leadName"
+							name="name"
+							type="text"
+							required
+							bind:value={leadName}
+							placeholder="e.g. David Vance"
+							class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+						/>
+					</div>
+
+					<!-- Association / Group Name -->
+					<div class="space-y-1.5">
+						<label for="leadAssociation" class="block font-semibold text-slate-700">
+							Association / Trade Group Name <span class="text-rose-500">*</span>
+						</label>
+						<input
+							id="leadAssociation"
+							name="associationName"
+							type="text"
+							required
+							bind:value={leadAssociation}
+							placeholder="e.g. National Glass Contractors Assoc."
+							class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+						/>
+					</div>
+
+					<!-- Member Count -->
+					<div class="space-y-1.5">
+						<label for="leadMemberCount" class="block font-semibold text-slate-700">
+							Estimated Participating Members <span class="text-rose-500">*</span>
+						</label>
+						<input
+							id="leadMemberCount"
+							name="memberCount"
+							type="number"
+							min="1"
+							required
+							bind:value={leadMemberCount}
+							placeholder="e.g. 35"
+							class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-mono"
+						/>
+					</div>
+
+					<!-- Line of Coverage -->
+					<div class="space-y-1.5">
+						<label for="leadCoverage" class="block font-semibold text-slate-700">
+							Primary Line of Coverage <span class="text-rose-500">*</span>
+						</label>
+						<select
+							id="leadCoverage"
+							name="lineOfCoverage"
+							required
+							bind:value={leadCoverage}
+							class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+						>
+							<option value="Commercial General Liability">Commercial General Liability</option>
+							<option value="Commercial Auto / Fleet">Commercial Auto / Fleet</option>
+							<option value="Workers Compensation">Workers Compensation</option>
+							<option value="Property / Inland Marine">Property / Inland Marine</option>
+							<option value="Specialty / Warranty / Indemnity">Specialty / Warranty / Prize Indemnity</option>
+							<option value="Professional Liability / Errors & Omissions">Professional Liability (E&amp;O / D&amp;O)</option>
+							<option value="Other Multi-Line Commercial">Other Multi-Line Commercial Risk</option>
+						</select>
+					</div>
+
+					<!-- Annual Premium Size -->
+					<div class="space-y-1.5">
+						<label for="leadPremiumSize" class="block font-semibold text-slate-700">
+							Estimated Combined Annual Premium <span class="text-rose-500">*</span>
+						</label>
+						<select
+							id="leadPremiumSize"
+							name="annualPremiumSize"
+							required
+							bind:value={leadPremiumSize}
+							class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+						>
+							<option value="Under $500,000">Under $500,000 / year</option>
+							<option value="$500,000 - $1,000,000">$500,000 &ndash; $1,000,000 / year</option>
+							<option value="$1,000,000 - $2,500,000">$1,000,000 &ndash; $2,500,000 / year</option>
+							<option value="$2,500,000 - $5,000,000">$2,500,000 &ndash; $5,000,000 / year</option>
+							<option value="$5,000,000+">$5,000,000+ / year</option>
+						</select>
+					</div>
+
+					<!-- Business Email -->
+					<div class="space-y-1.5">
+						<label for="leadEmail" class="block font-semibold text-slate-700">
+							Business Email Address <span class="text-rose-500">*</span>
+						</label>
+						<input
+							id="leadEmail"
+							name="email"
+							type="email"
+							required
+							bind:value={leadEmail}
+							placeholder="david@contractors.org"
+							class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+						/>
+					</div>
+
+					<!-- Phone (Optional) -->
+					<div class="space-y-1.5 sm:col-span-2 lg:col-span-1">
+						<label for="leadPhone" class="block font-semibold text-slate-700">
+							Phone Number <span class="text-slate-400 font-normal">(Optional)</span>
+						</label>
+						<input
+							id="leadPhone"
+							name="phone"
+							type="tel"
+							bind:value={leadPhone}
+							placeholder="+1 (555) 000-0000"
+							class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+						/>
+					</div>
+
+					<!-- Objectives / Notes -->
+					<div class="space-y-1.5 sm:col-span-2">
+						<label for="leadNotes" class="block font-semibold text-slate-700">
+							Key Challenges or Specific Objectives <span class="text-slate-400 font-normal">(Optional)</span>
+						</label>
+						<textarea
+							id="leadNotes"
+							name="notes"
+							rows="2"
+							bind:value={leadNotes}
+							placeholder="e.g. Unwarranted rate hikes on commercial auto renewals, looking to model 2027 renewal alternatives..."
+							class="w-full px-3.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-xs"
+						></textarea>
+					</div>
+				</div>
+
+				<div class="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+					<p class="text-[11px] text-slate-500">
+						Submitting this request does not constitute an insurance application or binding coverage commitment.
+					</p>
+					<button
+						type="submit"
+						disabled={isSubmittingLead}
+						class="inline-flex items-center justify-center space-x-2 px-6 py-3 rounded-xl font-bold text-xs bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white shadow-xs transition-all cursor-pointer disabled:opacity-50 shrink-0"
+					>
+						{#if isSubmittingLead}
+							<span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+							<span>Submitting Request...</span>
+						{:else}
+							<Send class="w-4 h-4" />
+							<span>Request Feasibility Review</span>
+						{/if}
+					</button>
+				</div>
+			</form>
+		{/if}
+	</section>
+
 	<!-- 5-Stage Formation Milestone Gating Pipeline -->
 	<section class="rounded-xl bg-white border border-slate-200 p-6 space-y-4 shadow-xs">
 		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
 			<div>
 				<h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
 					<TrendingUp class="w-4 h-4 text-blue-600" />
-					<span>Gated Formation Milestones &bull; Readiness Audit</span>
+					<span>Gated Formation Milestones &bull; Readiness Overview</span>
 				</h2>
 				<p class="text-xs text-slate-500">
-					Deterministic gates required by captive insurance domiciles (Vermont, Delaware, Cayman, Bermuda).
+					Standard milestone gates required by captive insurance domiciles (Vermont, Utah, Delaware, Cayman, Bermuda, Canada).
 				</p>
 			</div>
 			<span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
@@ -566,7 +819,7 @@
 					<span class="text-[10px] font-semibold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">Ready</span>
 				</div>
 				<p class="text-[11px] text-slate-500">
-					Deploy 11-step exposure survey &amp; collect loss run document records.
+					Deploy member exposure surveys and collect loss run documents.
 				</p>
 			</div>
 
@@ -586,7 +839,7 @@
 					<Clock class="w-4 h-4 text-slate-400" />
 				</div>
 				<p class="text-[11px] text-slate-500">
-					Lock standby capital pledges &amp; surplus notes to replace LOC.
+					Structure standby capital pledges &amp; surplus notes for collateral.
 				</p>
 			</div>
 
@@ -596,26 +849,29 @@
 					<Clock class="w-4 h-4 text-slate-400" />
 				</div>
 				<p class="text-[11px] text-slate-500">
-					Execute reinsurance treaties and issue master association policies.
+					Obtain Certificate of Authority and execute fronting/reinsurance treaties.
 				</p>
 			</div>
 		</div>
 	</section>
 
-	<!-- Historical Feasibility Assessments Registry -->
+	<!-- Historical Feasibility Assessments Registry (Sample data) -->
 	<section class="rounded-xl bg-white border border-slate-200 p-6 space-y-4 shadow-xs">
 		<div class="flex items-center justify-between border-b border-slate-200 pb-3">
 			<div>
 				<h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
 					<Building2 class="w-4 h-4 text-blue-600" />
-					<span>Historical Feasibility Submissions &bull; Program Registry</span>
+					<span>Illustrative Assessment Archive</span>
+					<span class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+						Sample data
+					</span>
 				</h2>
 				<p class="text-xs text-slate-500">
-					Verified group captive feasibility models recorded on the platform.
+					Sample group captive feasibility models recorded for demonstration purposes.
 				</p>
 			</div>
 			<span class="text-xs font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-				{data.assessments.length} Total Records
+				{data.assessments.length} Sample Records
 			</span>
 		</div>
 

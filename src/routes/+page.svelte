@@ -80,7 +80,7 @@
 				class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm transition-all shadow-xs flex items-center justify-center gap-2"
 			>
 				<Sparkles class="w-4 h-4 text-blue-200" />
-				<span>Evaluate Your Feasibility</span>
+				<span>Check Feasibility</span>
 				<ArrowRight class="w-4 h-4" />
 			</a>
 
@@ -102,7 +102,7 @@
 					<span>Member-Owned</span>
 				</div>
 				<p class="text-xs text-slate-600 leading-relaxed">
-					Owned and governed directly by your association members, not corporate carriers.
+					Owned and governed directly by your association members, not commercial carriers.
 				</p>
 			</div>
 
@@ -122,17 +122,17 @@
 					<span>Custom Policies</span>
 				</div>
 				<p class="text-xs text-slate-600 leading-relaxed">
-					Freedom to write custom policy terms and tailor claims handling to your industry.
+					Flexibility to write custom policy terms tailored to your association's risk profile.
 				</p>
 			</div>
 
 			<div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
 				<div class="flex items-center gap-2 text-amber-700 text-xs font-bold mb-1.5">
 					<Landmark class="w-4 h-4 text-amber-600" />
-					<span>LOC Replacement</span>
+					<span>Standby Collateral</span>
 				</div>
 				<p class="text-xs text-slate-600 leading-relaxed">
-					Replace expensive commercial bank Letters of Credit with pooled standby capital.
+					Model pooled standby capital to help reduce or replace costly commercial bank LOCs.
 				</p>
 			</div>
 		</div>
@@ -260,24 +260,24 @@
 					<ul class="space-y-3.5 text-xs text-slate-800">
 						<li class="flex items-start gap-2.5">
 							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
-							<span><strong>Profit Participation:</strong> Underwriting surplus and investment income returned to member businesses.</span>
+							<span><strong>Profit Participation:</strong> Underwriting surplus and investment income may be retained and returned to member businesses.</span>
 						</li>
 						<li class="flex items-start gap-2.5">
 							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
-							<span><strong>Tailored Policy Terms:</strong> Freedom to insure any risk your association chooses with custom conditions.</span>
+							<span><strong>Tailored Policy Terms:</strong> Greater flexibility to customize policy terms and coverage for association risks, subject to actuarial feasibility and domicile regulation.</span>
 						</li>
 						<li class="flex items-start gap-2.5">
 							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
-							<span><strong>Price Stabilization:</strong> Favorable loss ratios directly reduce or stabilize the cost of member coverage.</span>
+							<span><strong>Price Stabilization:</strong> Favorable loss ratios can help reduce or stabilize the long-term cost of member coverage.</span>
 						</li>
 						<li class="flex items-start gap-2.5">
 							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
-							<span><strong>Member-Led Claims:</strong> Establish your own fair, responsive claims handling guidelines and procedures.</span>
+							<span><strong>Member-Led Claims:</strong> Establish your own fair, member-aligned claims handling guidelines and procedures.</span>
 						</li>
 					</ul>
 				</div>
 				<div class="mt-6 pt-4 border-t border-slate-100 text-xs text-blue-700 font-semibold">
-					Captive outcome: <strong>Underwriting profits retained by your member organizations</strong>
+					Captive outcome: <strong>Underwriting surplus retained by your member organizations</strong>
 				</div>
 			</div>
 		</div>
@@ -316,7 +316,7 @@
 					</p>
 				</div>
 				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-blue-600">
-					<span>Complete coverage availability</span>
+					<span>Tailored coverage options</span>
 				</div>
 			</div>
 
@@ -352,7 +352,7 @@
 					</p>
 				</div>
 				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-blue-600">
-					<span>Direct dividend distributions</span>
+					<span>Potential dividend distributions</span>
 				</div>
 			</div>
 
@@ -384,11 +384,11 @@
 						Policy Freedom &amp; Custom Terms
 					</h3>
 					<p class="text-xs text-slate-600 leading-relaxed">
-						A captive has complete freedom to insure any risk it chooses and to customize the terms and conditions of its policies.
+						A captive can provide the flexibility to insure risks tailored to its members and customize policy terms and conditions, subject to domicile regulation, fronting carrier and reinsurer requirements, and actuarial feasibility.
 					</p>
 				</div>
 				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-purple-600">
-					<span>Zero carrier restrictions</span>
+					<span>Customized policy design</span>
 				</div>
 			</div>
 
@@ -406,7 +406,7 @@
 					</p>
 				</div>
 				<div class="pt-4 mt-4 border-t border-slate-100 flex items-center text-[11px] font-semibold text-teal-600">
-					<span>Transparent, prompt claim settlement</span>
+					<span>Fair, member-aligned claims procedures</span>
 				</div>
 			</div>
 		</div>
@@ -453,7 +453,7 @@
 					</div>
 					<h3 class="text-base font-bold text-slate-900">Pool Risk &amp; Standby Capital</h3>
 					<p class="text-xs text-slate-600 leading-relaxed">
-						Members complete digital risk surveys and commit standby capital reserves, replacing expensive commercial bank Letters of Credit (LOC) with member-owned collateral.
+						Members complete digital risk surveys and commit standby capital reserves, modeling member standby collateral to help replace or minimize reliance on traditional bank Letters of Credit (LOC), subject to fronting carrier requirements.
 					</p>
 					<div class="pt-2">
 						<a href="/capital" class="inline-flex items-center text-xs font-semibold text-blue-600 hover:text-blue-700">
@@ -500,7 +500,7 @@
 		</div>
 
 		<!-- Two Large Narrative Cards: Who We Are & Vision -->
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-8">
 			<!-- Who We Are Card -->
 			<div class="p-8 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between">
 				<div class="space-y-4">
@@ -539,6 +539,17 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Deep-Dive Link to Dedicated About & Formation Page -->
+		<div class="text-center">
+			<a
+				href="/about"
+				class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold border border-slate-200 transition-colors"
+			>
+				<span>Meet Founder Kevin Day, Formation Partners &amp; Stakeholder Roles</span>
+				<ArrowRight class="w-3.5 h-3.5 text-blue-600" />
+			</a>
+		</div>
 	</section>
 
 	<!-- =========================================================================
@@ -568,7 +579,7 @@
 						href="/feasibility"
 						class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-blue-700 font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
 					>
-						<span>Evaluate Feasibility Now</span>
+						<span>Check Feasibility Now</span>
 						<ArrowRight class="w-4 h-4" />
 					</a>
 

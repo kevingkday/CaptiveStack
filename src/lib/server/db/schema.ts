@@ -127,6 +127,27 @@ export const feasibilityAssessments = sqliteTable('feasibility_assessments', {
 });
 
 // ==========================================
+// 5b. Feasibility Leads Table (Lead Capture)
+// ==========================================
+export const leads = sqliteTable('leads', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	name: text('name').notNull(),
+	associationName: text('association_name').notNull(),
+	memberCount: integer('member_count').notNull(),
+	lineOfCoverage: text('line_of_coverage').notNull(),
+	annualPremiumSize: text('annual_premium_size').notNull(),
+	email: text('email').notNull(),
+	phone: text('phone'),
+	notes: text('notes'),
+	status: text('status').notNull().default('New'),
+	createdAt: text('created_at')
+		.notNull()
+		.$defaultFn(() => new Date().toISOString())
+});
+
+// ==========================================
 // 6. Member Surveys Table (Steps 1-11)
 // ==========================================
 export const memberSurveys = sqliteTable('member_surveys', {

@@ -24,9 +24,10 @@
 	const navItems = [
 		{ label: 'The Problem', href: '/#problem' },
 		{ label: 'The Solution', href: '/#solution' },
-		{ label: 'About Us', href: '/#about' },
-		{ label: 'Feasibility Calculator', href: '/feasibility' },
-		{ label: 'Capital & Reserves', href: '/capital' }
+		{ label: 'Feasibility', href: '/feasibility' },
+		{ label: 'Capital Reserves', href: '/capital' },
+		{ label: 'Domiciles', href: '/domiciles' },
+		{ label: 'About', href: '/about' }
 	];
 
 	function closeMenu() {
@@ -47,6 +48,15 @@
 		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
 		rel="stylesheet"
 	/>
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<meta property="og:site_name" content="CaptiveStack" />
+	<meta property="og:title" content="CaptiveStack | Member-Owned Group Captive Insurance" />
+	<meta property="og:description" content="CaptiveStack makes it easy for groups and associations to setup their own insurance company to insure the risks of their members." />
+	<meta property="og:image" content="https://www.captivestack.com/og-image.svg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="CaptiveStack | Member-Owned Group Captive Insurance" />
+	<meta name="twitter:description" content="CaptiveStack makes it easy for groups and associations to setup their own insurance company to insure the risks of their members." />
+	<meta name="twitter:image" content="https://www.captivestack.com/og-image.svg" />
 </svelte:head>
 
 <div class="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-100 selection:text-blue-900">
@@ -285,18 +295,23 @@
 							</a>
 						</li>
 						<li>
-							<a href="/#about" class="hover:text-blue-600 transition-colors">
-								About Us &amp; Our Vision
-							</a>
-						</li>
-						<li>
 							<a href="/feasibility" class="hover:text-blue-600 transition-colors">
 								Feasibility Calculator
 							</a>
 						</li>
 						<li>
 							<a href="/capital" class="hover:text-blue-600 transition-colors">
-								Capital Reserves &amp; LOC Replacement
+								Capital Reserves &amp; Standby Collateral
+							</a>
+						</li>
+						<li>
+							<a href="/domiciles" class="hover:text-blue-600 transition-colors">
+								Supported Domiciles
+							</a>
+						</li>
+						<li>
+							<a href="/about" class="hover:text-blue-600 transition-colors">
+								About Us &amp; Leadership
 							</a>
 						</li>
 					</ul>
@@ -304,7 +319,7 @@
 
 				<!-- Member & Governance Column -->
 				<div>
-					<h3 class="font-bold text-slate-900 mb-3 text-xs uppercase tracking-wider">Member Solutions</h3>
+					<h3 class="font-bold text-slate-900 mb-3 text-xs uppercase tracking-wider">Member &amp; Governance</h3>
 					<ul class="space-y-2.5 text-xs text-slate-600">
 						<li>
 							<a href="/login" class="hover:text-blue-600 transition-colors">
@@ -317,12 +332,32 @@
 							</a>
 						</li>
 						<li>
-							<span class="text-slate-400">
-								Audited Domicile Governance (VT, DE, Cayman, Bermuda)
-							</span>
+							<a href="/domiciles" class="hover:text-blue-600 transition-colors">
+								Domiciles (VT, UT, DE, Cayman, Bermuda, BC, AB)
+							</a>
+						</li>
+						<li>
+							<a href="https://canadiancaptive.com" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition-colors inline-flex items-center gap-1">
+								<span>CanadianCaptive.com (Domicile Research)</span>
+								<span class="text-[10px]">↗</span>
+							</a>
 						</li>
 					</ul>
 				</div>
+			</div>
+
+			<!-- Site-Wide Regulatory & Professional Disclaimer -->
+			<div class="mb-8 p-5 rounded-2xl bg-slate-100 border border-slate-200 text-slate-600 text-xs leading-relaxed space-y-2">
+				<div class="flex items-center gap-2 text-slate-800 font-bold text-xs uppercase tracking-wider">
+					<Shield class="w-4 h-4 text-blue-600" />
+					<span>Regulatory &amp; Professional Services Disclaimer</span>
+				</div>
+				<p>
+					CaptiveStack provides information, educational resources, and software modeling tools to evaluate captive insurance feasibility and alternative risk financing structures. <strong>CaptiveStack is not an insurance company and does not solicit, underwrite, issue, or offer insurance policies to the public.</strong>
+				</p>
+				<p>
+					Captive insurance company formation, capitalization, and licensing are strictly subject to formal regulatory review and statutory approval by the Department of Insurance or regulatory commission in the chosen domicile (such as Vermont, Utah, Delaware, Cayman Islands, Bermuda, Barbados, British Columbia, or Alberta). Policy issuance and coverage terms are additionally subject to underwriting approval by licensed fronting carriers and commercial reinsurers. Prospective captive owners should consult licensed captive managers, credentialed actuaries, legal counsel, and certified public accountants before initiating formation.
+				</p>
 			</div>
 
 			<div class="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">

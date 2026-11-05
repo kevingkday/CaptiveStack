@@ -1,8 +1,9 @@
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { getDb } from '$lib/server/db';
-import { feasibilityAssessments, auditLogs } from '$lib/server/db/schema';
+import { feasibilityAssessments, auditLogs, leads } from '$lib/server/db/schema';
 import { seedData } from '$lib/server/db/seed-data';
+import { notifyLeadToKevin } from '$lib/server/notifications/lead';
 
 export const load: PageServerLoad = async ({ platform, locals }) => {
 	let assessments: any[] = [];
@@ -44,7 +45,7 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const organizationType = (formData.get('organizationType') as string)?.trim() || 'Trade Association';
 		const email = (formData.get('email') as string)?.trim() || (locals.user?.email ?? 'intake@captivestack.ai');
-		const primaryConcern = (formData.get('primaryConcern') as string)?.trim() || 'Replacing Commercial Bank LOC';
+		const primaryConcern = (formData.get('primaryConcern') as string)?.trim() || 'Alternative Collateral Modeling';
 		const annualPremium = parseFloat(formData.get('annualPremium') as string) || 1200000;
 		const fiveYearLosses = parseFloat(formData.get('fiveYearLosses') as string) || 2000000;
 		const memberCount = parseInt(formData.get('memberCount') as string, 10) || 25;
@@ -132,6 +133,114 @@ export const actions: Actions = {
 				fitScore,
 				status,
 				createdAt: new Date().toISOString()
+			}
+		};
+	},
+
+	requestReview: async ({ request, platform, locals }) => {
+		const formData = await request.formData();
+		const name = (formData.get('name') as string)?.trim();
+		const associationName = (formData.get('associationName') as string)?.trim();
+		const memberCount = parseInt(formData.get('memberCount') as string, 10);
+		const lineOfCoverage = (formData.get('lineOfCoverage') as string)?.trim();
+		const annualPremiumSize = (formData.get('annualPremiumSize') as string)?.trim();
+		const email = (formData.get('email') as string)?.trim();
+		const phone = (formData.get('phone') as string)?.trim() || undefined;
+		const notes = (formData.get('notes') as string)?.trim() || undefined;
+
+		if (!name || !associationName || !email || !lineOfCoverage || !annualPremiumSize || isNaN(memberCount) || memberCount < 1) {
+			return fail(400, {
+				reviewError: 'Please complete all required fields (Name, Association, Members, Coverage Line, Premium Size, and Email).'
+			});
+		}
+
+		if (!email.includes('@') || !email.includes('.')) {
+			return fail(400, {
+				reviewError: 'Please provide a valid business email address.'
+			});
+		}
+
+		const leadId = crypto.randomUUID();
+		const timestamp = new Date().toISOString();
+
+		if (platform?.env?.DB) {
+			const db = getDb(platform.env.DB);
+			try {
+				await platform.env.DB.prepare(`
+					CREATE TABLE IF NOT EXISTS leads (
+						id TEXT PRIMARY KEY,
+						name TEXT NOT NULL,
+						association_name TEXT NOT NULL,
+						member_count INTEGER NOT NULL,
+						line_of_coverage TEXT NOT NULL,
+						annual_premium_size TEXT NOT NULL,
+						email TEXT NOT NULL,
+						phone TEXT,
+						notes TEXT,
+						status TEXT NOT NULL DEFAULT 'New',
+						created_at TEXT NOT NULL
+					)
+				`).run();
+
+				await db.insert(leads).values({
+					id: leadId,
+					name,
+					associationName,
+					memberCount,
+					lineOfCoverage,
+					annualPremiumSize,
+					email,
+					phone: phone || null,
+					notes: notes || null,
+					status: 'New',
+					createdAt: timestamp
+				});
+
+				await db.insert(auditLogs).values({
+					id: crypto.randomUUID(),
+					userId: locals.user?.id ?? null,
+					action: 'FEASIBILITY_REVIEW_LEAD_SUBMITTED',
+					targetEntity: `Lead:${leadId}`,
+					details: JSON.stringify({
+						name,
+						associationName,
+						memberCount,
+						lineOfCoverage,
+						annualPremiumSize,
+						email
+					}),
+					timestamp
+				});
+			} catch (err) {
+				console.error('[Lead Save Error]', err);
+			}
+		}
+
+		await notifyLeadToKevin(
+			{
+				id: leadId,
+				name,
+				associationName,
+				memberCount,
+				lineOfCoverage,
+				annualPremiumSize,
+				email,
+				phone,
+				notes
+			},
+			platform?.env as any
+		);
+
+		return {
+			reviewSuccess: true,
+			lead: {
+				id: leadId,
+				name,
+				associationName,
+				memberCount,
+				lineOfCoverage,
+				annualPremiumSize,
+				email
 			}
 		};
 	}

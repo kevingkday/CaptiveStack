@@ -130,7 +130,7 @@
 					Alternative Risk Financing
 				</span>
 				<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-					Letter of Credit (LOC) Replacement Engine
+					Standby Capital Modeling
 				</span>
 			</div>
 
@@ -138,12 +138,12 @@
 				Pooled Capital Reserves &amp; Standby Collateral
 			</h1>
 			<p class="text-sm text-slate-600 max-w-3xl leading-relaxed">
-				Commercial fronting carriers demand association members post bank Letters of Credit with 100% cash collateral and 1.5%&ndash;3.0% annual bank commitment fees. CaptiveStack replaces trapped bank LOCs with pooled standby capital pledges and subordinated surplus notes yielding 6.5% interest.
+				Commercial fronting carriers typically require association members to post bank Letters of Credit with cash collateral and 1.5%&ndash;3.0% annual bank commitment fees. CaptiveStack provides tools to model pooled standby capital pledges and subordinated surplus notes that can help reduce or replace traditional bank LOC requirements, subject to fronting carrier and domicile regulatory approval.
 			</p>
 
-			<!-- Program Switcher Buttons -->
+			<!-- Program Switcher Buttons with Sample Data indicator -->
 			<div class="pt-3 flex flex-wrap items-center gap-2">
-				<span class="text-xs text-slate-500 font-medium mr-1">Select Captive Program:</span>
+				<span class="text-xs text-slate-500 font-medium mr-1">Select Program (Sample data):</span>
 				{#each data.projects as project}
 					<button
 						type="button"
@@ -153,9 +153,23 @@
 						{project.name}
 					</button>
 				{/each}
+				<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+					Sample data
+				</span>
 			</div>
 		</div>
 	</header>
+
+	<!-- Regulatory Disclaimer Notice (TwinFlow Style Alert Box) -->
+	<div class="p-4 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 text-xs flex items-start gap-3">
+		<AlertCircle class="w-4 h-4 text-slate-500 flex-shrink-0 mt-0.5" />
+		<div class="space-y-1">
+			<strong class="font-bold text-slate-900">Illustrative estimates, not an actuarial opinion or offer</strong>
+			<p class="text-slate-600 leading-relaxed text-[11px]">
+				All standby facilities, LOC avoidance calculations, surplus note yields, and waterfall absorption percentages are illustrative estimates for exploratory modeling. They do not constitute an actuarial opinion, banking commitment, or offer of insurance. Any collateral replacement structure must be reviewed and approved by the chosen captive domicile insurance commissioner, fronting paper carrier, and treaty reinsurers.
+			</p>
+		</div>
+	</div>
 
 	{#if form?.success}
 		<div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-start space-x-3 text-sm animate-in fade-in duration-200">
@@ -174,23 +188,23 @@
 		<div class="p-5 rounded-xl bg-white border border-slate-200 shadow-xs">
 			<span class="text-xs text-slate-500 font-medium block mb-1">Target Capital Facility</span>
 			<span class="text-2xl font-bold text-slate-900 font-mono">{formatCurrency(simMath.standbyFacility)}</span>
-			<span class="text-[11px] text-emerald-700 font-medium block mt-1">Replaces Traditional Bank LOC</span>
+			<span class="text-[11px] text-emerald-700 font-medium block mt-1">Standby Collateral Facility Target</span>
 		</div>
 
 		<div class="p-5 rounded-xl bg-white border border-slate-200 shadow-xs">
-			<span class="text-xs text-slate-500 font-medium block mb-1">Annual Bank Fee Avoidance</span>
+			<span class="text-xs text-slate-500 font-medium block mb-1">Potential Bank Fee Avoidance</span>
 			<span class="text-2xl font-bold text-emerald-600 font-mono">{formatCurrency(simMath.traditionalAnnualBankFee)} / yr</span>
-			<span class="text-[11px] text-slate-500 block mt-1">At 2.50% standard bank LOC fee</span>
+			<span class="text-[11px] text-slate-500 block mt-1">At 2.50% estimated bank LOC fee</span>
 		</div>
 
 		<div class="p-5 rounded-xl bg-white border border-slate-200 shadow-xs">
-			<span class="text-xs text-slate-500 font-medium block mb-1">5-Year Group Savings</span>
+			<span class="text-xs text-slate-500 font-medium block mb-1">5-Year Group Potential Savings</span>
 			<span class="text-2xl font-bold text-blue-600 font-mono">{formatCurrency(simMath.fiveYearLOCSavings)}</span>
 			<span class="text-[11px] text-slate-500 block mt-1">Retained in member treasury</span>
 		</div>
 
 		<div class="p-5 rounded-xl bg-white border border-slate-200 shadow-xs">
-			<span class="text-xs text-slate-500 font-medium block mb-1">Surplus Note Yield</span>
+			<span class="text-xs text-slate-500 font-medium block mb-1">Surplus Note Indicative Yield</span>
 			<span class="text-2xl font-bold text-indigo-600 font-mono">6.50% APY</span>
 			<span class="text-[11px] text-slate-500 block mt-1">Subordinated capital dividend</span>
 		</div>
@@ -203,9 +217,12 @@
 				<h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
 					<Coins class="w-4 h-4 text-emerald-600" />
 					<span>Configured Capital Facilities &bull; {activeProject.name}</span>
+					<span class="text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded">
+						Sample data
+					</span>
 				</h2>
 				<p class="text-xs text-slate-500">
-					Structured facilities for project standby credit, liquid working reserves, and surplus notes.
+					Structured facilities for project standby credit, liquid working reserves, and surplus notes (sample data).
 				</p>
 			</div>
 			<span class="text-xs font-mono text-slate-600 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
@@ -387,9 +404,14 @@
 
 		<!-- Member Quota-Share Allocation Table -->
 		<div class="space-y-3 pt-3 border-t border-slate-200">
-			<h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">
-				Representative Member Standby Allocation &amp; Traditional LOC Savings
-			</h3>
+			<div class="flex items-center justify-between">
+				<h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">
+					Representative Member Standby Allocation &amp; Traditional LOC Savings
+				</h3>
+				<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+					Sample data
+				</span>
+			</div>
 
 			<div class="overflow-x-auto rounded-lg border border-slate-200">
 				<table class="w-full text-left text-xs font-mono">
