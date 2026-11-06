@@ -200,3 +200,122 @@ describe('sample data labeling', () => {
 		assert.match(capital, /Sample data/);
 	});
 });
+
+
+describe('lead generation funnel & scoring engine', () => {
+	it('calculates consistent readiness scores across volume, loss history and density tiers', async () => {
+		const { calculateReadinessScore } = await import('../readiness/scoring');
+
+		// High Fit Association: >$10M, Good loss history, 50+ members
+		const highFit = calculateReadinessScore({
+			role: 'association',
+			industry: 'contractors',
+			size: 75,
+			annualPremiumBand: '$10M - $25M',
+			linesOfCoverage: ['Commercial General Liability', 'Commercial Auto / Fleet'],
+			lossHistory: 'Good',
+			renewalDate: '2026-12-01',
+			region: 'British Columbia'
+		});
+
+		assert.ok(highFit.score >= 80, `Expected score >= 80 for high fit, got ${highFit.score}`);
+		assert.equal(highFit.tier, 'Optimal');
+		assert.ok(highFit.illustrative5YrSurplusMin > 500000);
+		assert.ok(highFit.illustrative5YrSurplusMax > highFit.illustrative5YrSurplusMin);
+		assert.ok(highFit.illustrativeAnnualLocSavings > 0);
+
+		// Developing Fit Business Owner: small premium, high loss history
+		const buildingFit = calculateReadinessScore({
+			role: 'business',
+			industry: 'hospitality',
+			size: 8,
+			annualPremiumBand: '$100k - $250k',
+			linesOfCoverage: ['Commercial Property'],
+			lossHistory: 'High',
+			renewalDate: '2026-11-15'
+		});
+
+		assert.ok(buildingFit.score < 60, `Expected score < 60 for high-loss small operator, got ${buildingFit.score}`);
+		assert.equal(buildingFit.tier, 'Developing');
+	});
+
+	it('configures all 6 target industries with pain points and labeled examples', async () => {
+		const { INDUSTRIES } = await import('../data/industries');
+		assert.equal(INDUSTRIES.length, 6);
+
+		const expectedSlugs = [
+			'contractors',
+			'transportation',
+			'healthcare',
+			'it-services',
+			'hospitality',
+			'property-managers'
+		];
+
+		for (const slug of expectedSlugs) {
+			const ind = INDUSTRIES.find((i) => i.slug === slug);
+			assert.ok(ind, `Missing target industry configuration: ${slug}`);
+			assert.ok(ind.name && ind.heroHeadline && ind.marketCrisis);
+			assert.equal(ind.coveragePainPoints.length, 3);
+			assert.ok(ind.keyBenefits.length >= 3);
+			assert.ok(ind.illustrativeExample, `Missing illustrative example for ${slug}`);
+			assert.ok(
+				ind.illustrativeExample.disclaimerNotice.includes('Illustrative') && ind.illustrativeExample.disclaimerNotice.includes('not an actuarial opinion'),
+				'Example must include illustrative disclaimer'
+			);
+		}
+	});
+
+	it('includes all funnel pages and industry landing pages in sitemap.xml', async () => {
+		const { GET } = await import('../../routes/sitemap.xml/+server');
+		const res = await (GET as any)({} as any);
+		const xml = await res.text();
+
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/for-associations<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/for-business-owners<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/readiness<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/industries<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/industries\/contractors<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/industries\/transportation<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/industries\/healthcare<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/industries\/it-services<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/industries\/hospitality<\/loc>/);
+		assert.match(xml, /<loc>https:\/\/www\.captivestack\.com\/industries\/property-managers<\/loc>/);
+	});
+
+	it('enforces RBAC permissions: /admin/leads restricted to Admin & CSA, /association/dashboard allowed for AssociationAdmin', async () => {
+		const { isRouteAllowed } = await import('../auth/rbac');
+
+		// Admin & CSA can access /admin and /association
+		assert.equal(isRouteAllowed('Admin', '/admin/leads'), true);
+		assert.equal(isRouteAllowed('CaptiveStackAdministrator', '/admin/leads'), true);
+		assert.equal(isRouteAllowed('Admin', '/association/dashboard'), true);
+
+		// AssociationAdmin can access /association/dashboard but NOT /admin/leads
+		assert.equal(isRouteAllowed('AssociationAdministrator', '/association/dashboard'), true);
+		assert.equal(isRouteAllowed('AssociationAdministrator', '/admin/leads'), false);
+
+		// AssociationMember cannot access /admin/leads or /association/dashboard
+		assert.equal(isRouteAllowed('AssociationMember', '/admin/leads'), false);
+		assert.equal(isRouteAllowed('AssociationMember', '/association/dashboard'), false);
+
+		// Anonymous / undefined role has zero access
+		assert.equal(isRouteAllowed(null, '/admin/leads'), false);
+	});
+
+	it('defines member_prospects and funnel_events in database schema', async () => {
+		const { memberProspects, funnelEvents } = await import('./db/schema');
+		assert.ok(memberProspects, 'memberProspects table missing');
+		assert.ok(funnelEvents, 'funnelEvents table missing');
+
+		const prospectCols = Object.keys(memberProspects);
+		assert.ok(prospectCols.includes('surveyToken'));
+		assert.ok(prospectCols.includes('companyName'));
+		assert.ok(prospectCols.includes('contactEmail'));
+
+		const eventCols = Object.keys(funnelEvents);
+		assert.ok(eventCols.includes('sessionId'));
+		assert.ok(eventCols.includes('eventName'));
+		assert.ok(eventCols.includes('metadata'));
+	});
+});

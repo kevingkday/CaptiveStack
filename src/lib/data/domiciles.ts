@@ -158,3 +158,4 @@ export function getDomicileById(id: string): Domicile | undefined {
 export function getDomicilesByRegion(region: Domicile['region']): Domicile[] {
 	return DOMICILES.filter((d) => d.region === region);
 }
+

@@ -54,6 +54,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const isProtected = protectedPrefixes.some((p) => pathname.startsWith(p));
 
 	if (isProtected) {
+		// Allow token-bearer access to the association campaign dashboard
+		if (pathname.startsWith('/association/dashboard') && event.url.searchParams.get('token')) {
+			return resolve(event);
+		}
+
 		if (!event.locals.user) {
 			throw redirect(303, `/login?redirectTo=${encodeURIComponent(pathname)}`);
 		}

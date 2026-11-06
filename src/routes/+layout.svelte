@@ -22,10 +22,11 @@
 	let mobileMenuOpen = $state(false);
 
 	const navItems = [
-		{ label: 'The Problem', href: '/#problem' },
-		{ label: 'The Solution', href: '/#solution' },
+		{ label: 'For Associations', href: '/for-associations' },
+		{ label: 'For Businesses', href: '/for-business-owners' },
+		{ label: 'Readiness Quiz', href: '/readiness' },
+		{ label: 'Industries', href: '/industries' },
 		{ label: 'Feasibility', href: '/feasibility' },
-		{ label: 'Capital Reserves', href: '/capital' },
 		{ label: 'Domiciles', href: '/domiciles' },
 		{ label: 'About', href: '/about' }
 	];
@@ -125,6 +126,14 @@
 				<!-- Header Right Actions & Identity -->
 				<div class="hidden sm:flex items-center space-x-2.5">
 					{#if data?.currentUser}
+						{#if data.currentUser.role === 'Admin' || data.currentUser.role === 'CaptiveStackAdministrator'}
+							<a
+								href="/admin/leads"
+								class="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 transition-colors shadow-2xs"
+							>
+								Admin Leads
+							</a>
+						{/if}
 						<a
 							href="/portal"
 							class="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs text-slate-800 transition-colors"
@@ -152,11 +161,11 @@
 							<span>Sign In</span>
 						</a>
 						<a
-							href="/feasibility"
+							href="/readiness"
 							class="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-xs transition-all"
 						>
 							<Sparkles class="w-3.5 h-3.5 text-blue-200" />
-							<span>Check Feasibility</span>
+							<span>Readiness Score</span>
 						</a>
 					{/if}
 				</div>
@@ -224,12 +233,12 @@
 						</div>
 					{:else}
 						<a
-							href="/feasibility"
+							href="/readiness"
 							onclick={closeMenu}
 							class="w-full flex items-center justify-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-xs transition-colors"
 						>
 							<Sparkles class="w-4 h-4 text-blue-200" />
-							<span>Evaluate Your Feasibility</span>
+							<span>Calculate Readiness Score</span>
 						</a>
 						<a
 							href="/login"
@@ -282,21 +291,31 @@
 
 				<!-- Navigation Column -->
 				<div>
-					<h3 class="font-bold text-slate-900 mb-3 text-xs uppercase tracking-wider">Platform</h3>
-					<ul class="space-y-2.5 text-xs text-slate-600">
+					<h3 class="font-bold text-slate-900 mb-3 text-xs uppercase tracking-wider">Funnel &amp; Solutions</h3>
+					<ul class="space-y-2 text-xs text-slate-600">
 						<li>
-							<a href="/#problem" class="hover:text-blue-600 transition-colors">
-								The Insurance Problem
+							<a href="/for-associations" class="hover:text-blue-600 transition-colors font-medium text-slate-900">
+								For Associations &amp; Groups
 							</a>
 						</li>
 						<li>
-							<a href="/#solution" class="hover:text-blue-600 transition-colors">
-								The CaptiveStack Solution
+							<a href="/for-business-owners" class="hover:text-blue-600 transition-colors font-medium text-slate-900">
+								For Commercial Business Owners
+							</a>
+						</li>
+						<li>
+							<a href="/readiness" class="hover:text-blue-600 transition-colors text-blue-600 font-semibold">
+								2-Min Readiness Score Quiz
+							</a>
+						</li>
+						<li>
+							<a href="/industries" class="hover:text-blue-600 transition-colors">
+								Target Industries (6 Guides)
 							</a>
 						</li>
 						<li>
 							<a href="/feasibility" class="hover:text-blue-600 transition-colors">
-								Feasibility Calculator
+								Group Feasibility Calculator
 							</a>
 						</li>
 						<li>
@@ -307,11 +326,6 @@
 						<li>
 							<a href="/domiciles" class="hover:text-blue-600 transition-colors">
 								Supported Domiciles
-							</a>
-						</li>
-						<li>
-							<a href="/about" class="hover:text-blue-600 transition-colors">
-								About Us &amp; Leadership
 							</a>
 						</li>
 					</ul>

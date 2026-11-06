@@ -47,7 +47,7 @@
 
 <div class="space-y-16 sm:space-y-24 py-8 sm:py-16">
 	<!-- =========================================================================
-	     1. HERO SECTION (TwinFlow Style)
+	     1. HERO SECTION WITH TWO CLEAR AUDIENCE PATHS
 	     ========================================================================= -->
 	<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
 		<!-- Eyebrow Pill -->
@@ -69,29 +69,187 @@
 		</h1>
 
 		<!-- Subtitle -->
-		<p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8">
-			Take control back from the hardening commercial insurance market. Pool your association's buying power, customize policy coverages, stabilize long-term rates, and participate directly in underwriting profits.
+		<p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-10">
+			Take control back from the hardening commercial insurance market. Escape rising premiums and claim denials by pooling risk with vetted trade peers and participating directly in underwriting profits.
 		</p>
 
-		<!-- Primary CTA Buttons -->
-		<div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mb-12">
-			<a
-				href="/feasibility"
-				class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm transition-all shadow-xs flex items-center justify-center gap-2"
-			>
-				<Sparkles class="w-4 h-4 text-blue-200" />
-				<span>Check Feasibility</span>
-				<ArrowRight class="w-4 h-4" />
-			</a>
+		<!-- =====================================================================
+		     TWO CLEAR AUDIENCE PATHWAYS (Association Leaders vs Business Owners)
+		     ===================================================================== -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mb-12 text-left">
+			<!-- Path A: Association Leader -->
+			<div class="p-8 rounded-3xl bg-white border-2 border-blue-600 shadow-md hover:shadow-lg transition-all flex flex-col justify-between space-y-6 relative overflow-hidden group">
+				<div class="space-y-4">
+					<div class="flex items-center justify-between">
+						<div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+							<Building2 class="w-6 h-6" />
+						</div>
+						<span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+							High-Impact Group Track
+						</span>
+					</div>
 
-			<button
-				type="button"
-				onclick={() => scrollToSection('problem')}
-				class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-sm transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
-			>
-				<span>Why Form a Captive?</span>
-				<ChevronRight class="w-4 h-4 text-slate-400" />
-			</button>
+					<div>
+						<h2 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+							I Run an Association or Group
+						</h2>
+						<p class="text-xs text-slate-600 mt-2 leading-relaxed">
+							Transform insurance into your association's strongest member benefit. Drastically reduce member churn, tailor policy coverage to your trade, and explore potential non-dues revenue.
+						</p>
+					</div>
+
+					<ul class="space-y-2 text-xs text-slate-700 pt-3 border-t border-slate-100">
+						<li class="flex items-center gap-2">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span>Proprietary member retention benefit</span>
+						</li>
+						<li class="flex items-center gap-2">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span>Deploy member surveys with 1-click tokenized links</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="pt-2 flex flex-col sm:flex-row items-center gap-2.5">
+					<a
+						href="/for-associations"
+						class="w-full sm:w-auto px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-xs transition-colors flex items-center justify-center gap-1.5"
+					>
+						<span>Explore Association Track</span>
+						<ArrowRight class="w-3.5 h-3.5" />
+					</a>
+					<a
+						href="/readiness?role=association"
+						class="w-full sm:w-auto px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors flex items-center justify-center gap-1"
+					>
+						<Sparkles class="w-3.5 h-3.5 text-blue-600" />
+						<span>Check Group Readiness</span>
+					</a>
+				</div>
+			</div>
+
+			<!-- Path B: Business Owner -->
+			<div class="p-8 rounded-3xl bg-white border-2 border-slate-200 hover:border-emerald-500 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between space-y-6 group">
+				<div class="space-y-4">
+					<div class="flex items-center justify-between">
+						<div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+							<Users class="w-6 h-6" />
+						</div>
+						<span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+							Mid-Market Business Track
+						</span>
+					</div>
+
+					<div>
+						<h2 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+							I'm a Commercial Business Owner
+						</h2>
+						<p class="text-xs text-slate-600 mt-2 leading-relaxed">
+							Too small for your own captive? Band together with industry peers in a member-owned group captive. If renewing soon, get an immediate second opinion via Ocean Falls Insurance.
+						</p>
+					</div>
+
+					<ul class="space-y-2 text-xs text-slate-700 pt-3 border-t border-slate-100">
+						<li class="flex items-center gap-2">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span>Participate in underwriting profits with trade peers</span>
+						</li>
+						<li class="flex items-center gap-2">
+							<Check class="w-4 h-4 text-emerald-600 flex-shrink-0" />
+							<span>Free renewal second opinion (Ocean Falls Insurance)</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="pt-2 flex flex-col sm:flex-row items-center gap-2.5">
+					<a
+						href="/for-business-owners"
+						class="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs shadow-xs transition-colors flex items-center justify-center gap-1.5"
+					>
+						<span>Explore Business Track</span>
+						<ArrowRight class="w-3.5 h-3.5" />
+					</a>
+					<a
+						href="/readiness?role=business"
+						class="w-full sm:w-auto px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors flex items-center justify-center gap-1"
+					>
+						<Sparkles class="w-3.5 h-3.5 text-emerald-600" />
+						<span>Get Readiness Score</span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- What Is a Group Captive? (Short Explanation & Proof of Value) -->
+		<div class="max-w-4xl mx-auto p-6 rounded-2xl bg-white border border-slate-200 shadow-xs text-left space-y-4 mb-8">
+			<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+				<h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+					<Compass class="w-4 h-4 text-blue-600" />
+					<span>What is a Member-Owned Group Captive?</span>
+				</h2>
+				<span class="text-[10px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+					Alternative Risk Transfer (ART)
+				</span>
+			</div>
+
+			<p class="text-xs text-slate-600 leading-relaxed">
+				A group captive is an insurance company owned and governed by multiple non-related organizations &mdash; typically members of an association or trade coalition. Instead of paying premiums into a traditional commercial insurer where unspent money becomes carrier profit, group members pool predictable primary risk, share underwriting gains, and purchase reinsurance as a group for catastrophic protection.
+			</p>
+
+			<!-- Proof of Value Grid -->
+			<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs">
+				<a
+					href="/feasibility"
+					class="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 transition-colors space-y-1 block"
+				>
+					<span class="font-bold text-slate-900 block flex items-center gap-1">
+						<span>Feasibility Engine</span>
+						<ArrowRight class="w-3 h-3 text-blue-600" />
+					</span>
+					<span class="text-[11px] text-slate-500 block">Simulate loss ratios &amp; underwriting surplus</span>
+				</a>
+
+				<a
+					href="/capital"
+					class="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 transition-colors space-y-1 block"
+				>
+					<span class="font-bold text-slate-900 block flex items-center gap-1">
+						<span>Capital &amp; LOC Model</span>
+						<ArrowRight class="w-3 h-3 text-blue-600" />
+					</span>
+					<span class="text-[11px] text-slate-500 block">Replace trapped bank LOCs with standby capital</span>
+				</a>
+
+				<a
+					href="/domiciles"
+					class="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 transition-colors space-y-1 block"
+				>
+					<span class="font-bold text-slate-900 block flex items-center gap-1">
+						<span>8 Domiciles</span>
+						<ArrowRight class="w-3 h-3 text-blue-600" />
+					</span>
+					<span class="text-[11px] text-slate-500 block">Vermont, Utah, Cayman, Bermuda, BC, Alberta</span>
+				</a>
+
+				<a
+					href="/industries"
+					class="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 transition-colors space-y-1 block"
+				>
+					<span class="font-bold text-slate-900 block flex items-center gap-1">
+						<span>Target Industries</span>
+						<ArrowRight class="w-3 h-3 text-blue-600" />
+					</span>
+					<span class="text-[11px] text-slate-500 block">Contractors, Fleet, Dental, IT/MSPs, Hospitality</span>
+				</a>
+			</div>
+
+			<!-- Hero Short Disclaimer -->
+			<div class="pt-3 border-t border-slate-100 text-[11px] text-slate-500 flex items-start gap-2">
+				<AlertCircle class="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+				<span>
+					<strong>Illustrative estimates only:</strong> CaptiveStack is an educational modeling platform and not an insurer. Captive formation is subject to regulatory approval in the chosen domicile and fronting carrier criteria.
+				</span>
+			</div>
 		</div>
 
 		<!-- Trust Highlights Grid (TwinFlow Style 4-Pillar Grid) -->

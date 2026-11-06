@@ -127,21 +127,74 @@ export const feasibilityAssessments = sqliteTable('feasibility_assessments', {
 });
 
 // ==========================================
-// 5b. Feasibility Leads Table (Lead Capture)
+// 5b. Leads Table (Lead Generation Funnel)
 // ==========================================
 export const leads = sqliteTable('leads', {
 	id: text('id')
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
-	name: text('name').notNull(),
-	associationName: text('association_name').notNull(),
-	memberCount: integer('member_count').notNull(),
-	lineOfCoverage: text('line_of_coverage').notNull(),
-	annualPremiumSize: text('annual_premium_size').notNull(),
-	email: text('email').notNull(),
+	leadType: text('lead_type').notNull().default('association'), // 'association' | 'business'
+	name: text('name').notNull().default(''),
+	email: text('email').notNull().default(''),
 	phone: text('phone'),
+	companyName: text('company_name'),
+	associationName: text('association_name').notNull().default(''),
+	memberCount: integer('member_count').notNull().default(0),
+	size: integer('size').default(0),
+	lineOfCoverage: text('line_of_coverage').notNull().default(''),
+	annualPremiumSize: text('annual_premium_size').notNull().default(''),
+	industry: text('industry'),
+	lossHistory: text('loss_history'), // 'Good' | 'Average' | 'High'
+	renewalDate: text('renewal_date'), // YYYY-MM or YYYY-MM-DD
+	region: text('region'),
+	sourceUtm: text('source_utm'), // JSON: { utm_source, utm_medium, utm_campaign, utm_term, utm_content, referrer }
+	score: integer('score').default(0), // 0-100
+	stage: text('stage').notNull().default('QuizStarted'), // 'QuizStarted' | 'Partial' | 'ScoreGenerated' | 'ReportGated' | 'ReviewBooked' | 'SecondOpinionRequested'
+	secondOpinionRequested: integer('second_opinion_requested', { mode: 'boolean' }).notNull().default(false),
+	currentCarrier: text('current_carrier'),
 	notes: text('notes'),
 	status: text('status').notNull().default('New'),
+	createdAt: text('created_at')
+		.notNull()
+		.$defaultFn(() => new Date().toISOString()),
+	updatedAt: text('updated_at')
+		.notNull()
+		.$defaultFn(() => new Date().toISOString())
+});
+
+// ==========================================
+// 5c. Member Prospects Table (Association Invites)
+// ==========================================
+export const memberProspects = sqliteTable('member_prospects', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	associationLeadId: text('association_lead_id'),
+	surveyToken: text('survey_token').unique(),
+	companyName: text('company_name').notNull(),
+	contactName: text('contact_name'),
+	contactEmail: text('contact_email').notNull(),
+	annualPremium: real('annual_premium'),
+	lines: text('lines'),
+	lossRatio: real('loss_ratio'),
+	status: text('status').notNull().default('Invited'), // 'Invited' | 'InProgress' | 'Completed' | 'Certified'
+	createdAt: text('created_at')
+		.notNull()
+		.$defaultFn(() => new Date().toISOString())
+});
+
+// ==========================================
+// 5d. Funnel Analytics Events Table
+// ==========================================
+export const funnelEvents = sqliteTable('funnel_events', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	leadId: text('lead_id'),
+	sessionId: text('session_id').notNull(),
+	eventName: text('event_name').notNull(), // 'funnel_start' | 'step_completed' | 'score_calculated' | 'report_unlocked' | 'review_booked' | 'second_opinion_requested'
+	stepNumber: integer('step_number'),
+	metadata: text('metadata'), // JSON
 	createdAt: text('created_at')
 		.notNull()
 		.$defaultFn(() => new Date().toISOString())
@@ -307,3 +360,12 @@ export type NewDocumentRecord = typeof documentRecords.$inferInsert;
 
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type NewAuditLog = typeof auditLogs.$inferInsert;
+
+export type Lead = typeof leads.$inferSelect;
+export type NewLead = typeof leads.$inferInsert;
+
+export type MemberProspect = typeof memberProspects.$inferSelect;
+export type NewMemberProspect = typeof memberProspects.$inferInsert;
+
+export type FunnelEvent = typeof funnelEvents.$inferSelect;
+export type NewFunnelEvent = typeof funnelEvents.$inferInsert;
