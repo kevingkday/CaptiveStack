@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import type { PageData } from './$types';
 	import {
 		BarChart3,
@@ -26,40 +27,45 @@
 	import { calculateReadinessScore, type ReadinessScoreResult } from '$lib/readiness/scoring';
 
 	let { data }: { data: PageData } = $props();
+	const initialData = untrack(() => data);
+	const initialRole: 'association' | 'business' =
+		initialData.roleParam === 'business' || initialData.existingLead?.leadType === 'business'
+			? 'business'
+			: 'association';
 
 	// Quiz Steps (1 to 8, 9 is results, 10 is unlocked report)
 	let currentStep = $state(1);
 
 	// Quiz Form State
-	let role = $state<'association' | 'business'>(
-		data.roleParam === 'business' || data.existingLead?.leadType === 'business' ? 'business' : 'association'
-	);
-	let industry = $state(data.industryParam || data.existingLead?.industry || 'contractors');
-	let size = $state(data.existingLead?.size || (role === 'association' ? 25 : 35));
-	let annualPremiumBand = $state(data.existingLead?.annualPremiumSize || '$500k - $1M');
+	let role = $state<'association' | 'business'>(initialRole);
+	let industry = $state(initialData.industryParam || initialData.existingLead?.industry || 'contractors');
+	let size = $state(initialData.existingLead?.size || (initialRole === 'association' ? 25 : 35));
+	let annualPremiumBand = $state(initialData.existingLead?.annualPremiumSize || '$500k - $1M');
 	let selectedLines = $state<string[]>([
 		'Commercial General Liability',
 		"Workers' Compensation"
 	]);
 	let lossHistory = $state<'Good' | 'Average' | 'High'>(
-		(data.existingLead?.lossHistory as any) || 'Good'
+		(initialData.existingLead?.lossHistory as any) || 'Good'
 	);
-	let renewalDate = $state(data.existingLead?.renewalDate || '60 - 90 Days');
-	let region = $state(data.existingLead?.region || 'British Columbia');
+	let renewalDate = $state(initialData.existingLead?.renewalDate || '60 - 90 Days');
+	let region = $state(initialData.existingLead?.region || 'British Columbia');
 
 	// Gated Unlock Form
-	let leadId = $state(data.existingLead?.id || '');
-	let contactName = $state(data.existingLead?.name || '');
-	let contactEmail = $state(data.existingLead?.email || '');
-	let companyOrAssocName = $state(data.existingLead?.companyName || data.existingLead?.associationName || '');
-	let phone = $state(data.existingLead?.phone || '');
+	let leadId = $state(initialData.existingLead?.id || '');
+	let contactName = $state(initialData.existingLead?.name || '');
+	let contactEmail = $state(initialData.existingLead?.email || '');
+	let companyOrAssocName = $state(
+		initialData.existingLead?.companyName || initialData.existingLead?.associationName || ''
+	);
+	let phone = $state(initialData.existingLead?.phone || '');
 	let isUnlocking = $state(false);
-	let reportUnlocked = $state(data.existingLead?.stage === 'ReportGated' || false);
+	let reportUnlocked = $state(initialData.existingLead?.stage === 'ReportGated' || false);
 
 	// Business track extra fields
-	let associationAffiliation = $state(data.existingLead?.associationName || '');
-	let currentCarrier = $state(data.existingLead?.currentCarrier || '');
-	let secondOpinionRequested = $state(Boolean(data.existingLead?.secondOpinionRequested));
+	let associationAffiliation = $state(initialData.existingLead?.associationName || '');
+	let currentCarrier = $state(initialData.existingLead?.currentCarrier || '');
+	let secondOpinionRequested = $state(Boolean(initialData.existingLead?.secondOpinionRequested));
 	let secondOpinionSubmitted = $state(false);
 
 	// Association track invite link state
